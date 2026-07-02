@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DriveX | Store</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+    <a class="logo" href="index.html">DriveX</a>
+    <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="store.html">Store</a>
+        <a href="cart.html">Cart</a>
+        <a href="login.html">Login</a>
+        <a href="register.html">Sign Up</a>
+        <a href="admin.html">Admin</a>
+        <span id="navUserText"></span>
+        <button id="logoutButton" class="logout-button">Logout</button>
+    </div>
+</nav>
+
+<section class="page-header">
+    <h1>DriveX Store</h1>
+    <p>Choose premium car accessories for your vehicle</p>
+
+    <div class="store-live-info">
+        <p id="currencyRateText">Loading currency rate...</p>
+        <p id="weatherSuggestionText">Loading weather recommendation...</p>
+    </div>
+</section>
+
+<main class="store-container">
+    <div class="sort-box">
+        <label for="sortSelect">Sort products:</label>
+
+        <select id="sortSelect">
+            <option value="">Default</option>
+            <option value="price-low">Price: Low to High</option>
+            <option value="price-high">Price: High to Low</option>
+            <option value="name-asc">Name: A to Z</option>
+            <option value="stock-high">Stock: High to Low</option>
+            <option value="category-asc">Category: A to Z</option>
+        </select>
+    </div>
+
+    <p id="cartMessage"></p>
+
+    <section id="productsContainer" class="products-grid"></section>
+</main>
+
+<footer class="footer">
+    <p>© 2026 DriveX. All rights reserved.</p>
+</footer>
+
+<script src="/js/main.js"></script>
+<script src="/js/store.js"></script>
+</body>
+</html>

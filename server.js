@@ -27,10 +27,6 @@ mongoose
         console.log("MongoDB connection error:", error.message);
     });
 
-app.get("/", function (req, res) {
-    res.send("DriveX server is running");
-});
-
 app.get("/api/test", function (req, res) {
     res.json({
         message: "DriveX API is working",
@@ -80,17 +76,19 @@ app.get("/api/products", async function (req, res) {
 app.post("/api/products", async function (req, res) {
     try {
         const name = req.body.name;
-        const category = req.body.category;
+        const category = req.body.category || "";
         const price = req.body.price;
-        const image = req.body.image;
-        const stock = req.body.stock;
-        const description = req.body.description;
+        const image = req.body.image || req.body.imageUrl || "";
+        const imageUrl = req.body.imageUrl || req.body.image || "";
+        const stock = req.body.stock || 0;
+        const description = req.body.description || "";
 
         const newProduct = await Product.create({
             name: name,
             category: category,
             price: price,
             image: image,
+            imageUrl: imageUrl,
             stock: stock,
             description: description,
         });
@@ -134,11 +132,12 @@ app.put("/api/products/:id", async function (req, res) {
         const productId = req.params.id;
 
         const name = req.body.name;
-        const category = req.body.category;
+        const category = req.body.category || "";
         const price = req.body.price;
-        const image = req.body.image;
-        const stock = req.body.stock;
-        const description = req.body.description;
+        const image = req.body.image || req.body.imageUrl || "";
+        const imageUrl = req.body.imageUrl || req.body.image || "";
+        const stock = req.body.stock || 0;
+        const description = req.body.description || "";
 
         const updatedProduct = await Product.findByIdAndUpdate(
             productId,
@@ -147,6 +146,7 @@ app.put("/api/products/:id", async function (req, res) {
                 category: category,
                 price: price,
                 image: image,
+                imageUrl: imageUrl,
                 stock: stock,
                 description: description,
             },
@@ -238,6 +238,7 @@ app.get("/api/products/seed", async function (req, res) {
                 category: "Interior",
                 price: 49,
                 image: "https://images.unsplash.com/photo-1617469767053-d3b523a0b982",
+                imageUrl: "https://images.unsplash.com/photo-1617469767053-d3b523a0b982",
                 stock: 20,
                 description: "Adjustable phone holder for safe driving.",
             },
@@ -246,6 +247,7 @@ app.get("/api/products/seed", async function (req, res) {
                 category: "Lighting",
                 price: 129,
                 image: "https://images.unsplash.com/photo-1503736334956-4c8f8e92946d",
+                imageUrl: "https://images.unsplash.com/photo-1503736334956-4c8f8e92946d",
                 stock: 12,
                 description: "Powerful LED lights for better night visibility.",
             },
@@ -254,6 +256,7 @@ app.get("/api/products/seed", async function (req, res) {
                 category: "Interior",
                 price: 199,
                 image: "https://images.unsplash.com/photo-1503376780353-7e6692767b70",
+                imageUrl: "https://images.unsplash.com/photo-1503376780353-7e6692767b70",
                 stock: 8,
                 description: "Comfortable and stylish seat covers.",
             },
@@ -316,13 +319,19 @@ app.get("/api/orders", async function (req, res) {
 });
 
 /* -------------------------------
-   Auth - Our DriveX Routes
+   Auth - DriveX username routes
 -------------------------------- */
 
 app.post("/api/auth/signup", async function (req, res) {
     try {
         const username = req.body.username;
         const password = req.body.password;
+
+        if (!username || !password) {
+            return res.status(400).json({
+                message: "Username and password are required",
+            });
+        }
 
         const existingUser = await User.findOne({ username: username });
 
@@ -379,6 +388,9 @@ app.post("/api/auth/login", async function (req, res) {
             message: "Login successful",
             user: {
                 username: user.username,
+                email: user.email || "",
+                firstName: user.firstName || "",
+                lastName: user.lastName || "",
                 role: user.role,
             },
         });
@@ -390,16 +402,16 @@ app.post("/api/auth/login", async function (req, res) {
 });
 
 /* -------------------------------
-   Auth - Ophir Compatibility Routes
-   These keep his /api/register and /api/login working
+   Auth - Ophir email routes
 -------------------------------- */
 
 app.post("/api/register", async function (req, res) {
     try {
         const email = req.body.email;
         const password = req.body.password;
-        const firstName = req.body.firstName;
-        const lastName = req.body.lastName;
+        const firstName = req.body.firstName || "";
+        const lastName = req.body.lastName || "";
+        const phone = req.body.phone || "";
         const role = req.body.role || "customer";
 
         if (!email || !password) {
@@ -429,6 +441,7 @@ app.post("/api/register", async function (req, res) {
             password: hashedPassword,
             firstName: firstName,
             lastName: lastName,
+            phone: phone,
             role: role,
         });
 
@@ -518,7 +531,10 @@ app.get("/api/auth/create-admin", async function (req, res) {
 
         const adminUser = await User.create({
             username: "admin",
+            email: "admin@drivex.com",
             password: hashedPassword,
+            firstName: "Admin",
+            lastName: "User",
             role: "admin",
         });
 
@@ -526,6 +542,8 @@ app.get("/api/auth/create-admin", async function (req, res) {
             message: "Admin user created successfully",
             user: {
                 username: adminUser.username,
+                email: adminUser.email,
+                firstName: adminUser.firstName,
                 role: adminUser.role,
             },
         });

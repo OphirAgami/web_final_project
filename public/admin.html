@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DriveX | Admin Dashboard</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+    <a class="logo" href="index.html">DriveX</a>
+    <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="store.html">Store</a>
+        <a href="cart.html">Cart</a>
+        <a href="login.html">Login</a>
+        <a href="register.html">Sign Up</a>
+        <a href="admin.html">Admin</a>
+        <span id="navUserText"></span>
+        <button id="logoutButton" class="logout-button">Logout</button>
+    </div>
+</nav>
+
+<section class="page-header">
+    <h1>Admin Dashboard</h1>
+    <p>Manage products, orders and store statistics</p>
+</section>
+
+<p id="adminMessage"></p>
+
+<main id="adminContent" class="admin-container">
+    <section class="admin-card product-form-card">
+        <h2>Add / Edit Product</h2>
+
+        <form id="productForm">
+            <input type="hidden" id="productId">
+
+            <input type="text" id="productName" placeholder="Product Name" required>
+            <input type="text" id="productCategory" placeholder="Category" required>
+            <input type="number" id="productPrice" placeholder="Price" required>
+            <input type="text" id="productImage" placeholder="Image URL" required>
+            <input type="number" id="productStock" placeholder="Stock" required>
+            <textarea id="productDescription" placeholder="Description" required></textarea>
+
+            <button id="saveProductButton" type="submit">Save Product</button>
+            <button id="cancelEditButton" type="button" style="display: none;">Cancel Edit</button>
+        </form>
+    </section>
+
+    <section class="admin-card products-management-card">
+        <h2>Manage Products</h2>
+        <div id="adminProductsContainer"></div>
+    </section>
+
+    <section class="admin-card">
+        <h2>Store Statistics</h2>
+        <p>These charts are created from MongoDB aggregate queries.</p>
+
+        <h3>Products by Category</h3>
+        <canvas id="categoryChart"></canvas>
+
+        <h3>Average Price by Category</h3>
+        <canvas id="averagePriceChart"></canvas>
+    </section>
+
+    <section class="admin-card">
+        <h2>Recent Orders</h2>
+        <div id="adminOrdersContainer"></div>
+    </section>
+</main>
+
+<footer class="footer">
+    <p>© 2026 DriveX. All rights reserved.</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/admin.js"></script>
+</body>
+</html>
