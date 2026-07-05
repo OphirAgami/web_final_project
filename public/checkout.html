@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DriveX - Checkout</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<!-- תפריט ניווט עליון של האתר -->
+<nav class="navbar">
+    <a class="logo" href="index.html">DriveX</a>
+
+    <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="store.html">Store</a>
+        <a href="cart.html">Cart</a>
+        <a href="support.html">Support</a>
+        <a href="login.html">Login</a>
+        <a href="admin.html">Admin</a>
+        <span id="navUserText"></span>
+        <button id="logoutButton" class="logout-button">Logout</button>
+    </div>
+</nav>
+
+<!-- כותרת עמוד התשלום -->
+<section class="page-header">
+    <h1>Checkout</h1>
+    <p>Complete your order with shipping details and demo payment.</p>
+</section>
+
+<!-- התוכן הראשי של עמוד התשלום -->
+<main class="checkout-container">
+
+    <!-- טופס משלוח ותשלום -->
+    <section class="checkout-card">
+        <h2>Shipping Details</h2>
+
+        <form id="checkoutForm">
+            <input type="text" id="fullName" placeholder="Full Name" required>
+            <input type="text" id="phone" placeholder="Phone Number" required>
+
+            <select id="country" required>
+                <option value="">Choose Country</option>
+                <option value="Israel">Israel</option>
+                <option value="United States">United States</option>
+                <option value="United Kingdom">United Kingdom</option>
+                <option value="Germany">Germany</option>
+                <option value="France">France</option>
+            </select>
+
+            <input type="text" id="city" placeholder="City" required>
+            <input type="text" id="street" placeholder="Street and House Number" required>
+            <input type="text" id="zipCode" placeholder="ZIP / Postal Code">
+
+            <h2>Payment Method</h2>
+
+            <div class="payment-methods">
+                <label>
+                    <input type="radio" name="paymentMethod" value="credit-card" checked>
+                    Demo Credit Card
+                </label>
+
+                <label>
+                    <input type="radio" name="paymentMethod" value="google-pay">
+                    Demo Google Pay
+                </label>
+            </div>
+
+            <!-- שדות כרטיס אשראי דמו בלבד -->
+            <div id="creditCardFields">
+                <input type="text" id="cardNumber" placeholder="Card Number">
+                <input type="text" id="cardName" placeholder="Name on Card">
+                <input type="text" id="expiryDate" placeholder="Expiry Date MM/YY">
+                <input type="text" id="cvv" placeholder="CVV">
+            </div>
+
+            <!-- פרטי כרטיס דמו להצגה למרצה -->
+            <div class="demo-payment-box">
+                <h3>Demo Payment Details</h3>
+                <p>Use this fake card to approve payment:</p>
+                <p><strong>Card:</strong> 4242 4242 4242 4242</p>
+                <p><strong>Expiry:</strong> 12/30</p>
+                <p><strong>CVV:</strong> 123</p>
+            </div>
+
+            <button type="submit">Pay Now</button>
+        </form>
+
+        <p id="checkoutMessage"></p>
+    </section>
+
+    <!-- סיכום הזמנה -->
+    <section class="checkout-card">
+        <h2>Order Summary</h2>
+
+        <div id="checkoutItemsContainer"></div>
+
+        <div class="checkout-summary">
+            <p id="subtotalText">Subtotal: $0</p>
+            <p id="shippingText">Shipping: $0</p>
+            <p id="deliveryText">Delivery: Choose country</p>
+            <h3 id="totalText">Total: $0</h3>
+        </div>
+    </section>
+
+</main>
+
+<!-- תחתית האתר -->
+<footer class="footer">
+    <p>© 2026 DriveX. All rights reserved.</p>
+</footer>
+
+<!-- קבצי JavaScript שמפעילים את האתר ואת עמוד התשלום -->
+<script src="/js/main.js"></script>
+<script src="/js/checkout.js"></script>
+</body>
+</html>

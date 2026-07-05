@@ -2,17 +2,20 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>DriveX | Cart</title>
+    <title>DriveX - Cart</title>
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 
+<!-- תפריט ניווט עליון של האתר -->
 <nav class="navbar">
     <a class="logo" href="index.html">DriveX</a>
+
     <div class="nav-links">
         <a href="index.html">Home</a>
         <a href="store.html">Store</a>
         <a href="cart.html">Cart</a>
+        <a href="support.html">Support</a>
         <a href="login.html">Login</a>
         <a href="admin.html">Admin</a>
         <span id="navUserText"></span>
@@ -20,22 +23,38 @@
     </div>
 </nav>
 
+<!-- כותרת עמוד העגלה -->
 <section class="page-header">
-    <h1>Your Cart</h1>
-    <p>Review your selected products before checkout</p>
+    <h1>Your Shopping Cart</h1>
+    <p>Review your products before continuing to checkout.</p>
 </section>
 
+<!-- התוכן הראשי של עמוד העגלה -->
 <main class="cart-container">
-    <section id="cartItemsContainer"></section>
 
+    <!-- כאן יוצגו המוצרים שהלקוח הוסיף לעגלה -->
+    <section class="cart-card">
+        <h2>Cart Items</h2>
+        <div id="cartItemsContainer"></div>
+    </section>
+
+    <!-- סיכום ההזמנה לפני מעבר לתשלום -->
     <section class="cart-summary">
-        <h2 id="cartTotalText">Total: $0</h2>
-        <button id="checkoutButton">Checkout</button>
-        <button id="clearCartButton">Clear Cart</button>
+        <h2>Order Summary</h2>
+
+        <p id="cartTotalText">Total: $0</p>
+
+        <div class="cart-actions">
+            <button id="checkoutButton" type="button">Continue to Checkout</button>
+            <button id="clearCartButton" type="button">Clear Cart</button>
+        </div>
+
         <p id="orderMessage"></p>
     </section>
+
 </main>
 
+<!-- תחתית האתר -->
 <footer class="footer">
     <p>© 2026 DriveX. All rights reserved.</p>
 </footer>

@@ -7,53 +7,86 @@
 </head>
 <body>
 
+<!-- תפריט ניווט עליון של האתר -->
 <nav class="navbar">
     <a class="logo" href="index.html">DriveX</a>
+
     <div class="nav-links">
         <a href="index.html">Home</a>
         <a href="store.html">Store</a>
         <a href="cart.html">Cart</a>
+        <a href="support.html">Support</a>
         <a href="login.html">Login</a>
-        <a href="register.html">Sign Up</a>
         <a href="admin.html">Admin</a>
         <span id="navUserText"></span>
         <button id="logoutButton" class="logout-button">Logout</button>
     </div>
 </nav>
 
+<!-- כותרת עמוד החנות ומידע חי -->
 <section class="page-header">
     <h1>DriveX Store</h1>
     <p>Choose premium car accessories for your vehicle</p>
 
+    <!-- נתונים חיצוניים שמוצגים למשתמש, כמו שער מטבע ומזג אוויר -->
     <div class="store-live-info">
         <p id="currencyRateText">Loading currency rate...</p>
         <p id="weatherSuggestionText">Loading weather recommendation...</p>
     </div>
 </section>
 
+<!-- התוכן הראשי של החנות -->
 <main class="store-container">
-    <div class="sort-box">
-        <label for="sortSelect">Sort products:</label>
 
-        <select id="sortSelect">
-            <option value="">Default</option>
-            <option value="price-low">Price: Low to High</option>
-            <option value="price-high">Price: High to Low</option>
-            <option value="name-asc">Name: A to Z</option>
-            <option value="stock-high">Stock: High to Low</option>
-            <option value="category-asc">Category: A to Z</option>
-        </select>
-    </div>
+    <!-- חיפוש, קטגוריות ומיון -->
+    <section class="filters-box">
+        <div class="filter-field">
+            <label for="searchInput">Search product:</label>
+            <input type="text" id="searchInput" placeholder="Search by name or description">
+        </div>
 
-    <p id="cartMessage"></p>
+        <div class="filter-field">
+            <label for="categorySelect">Category:</label>
+            <select id="categorySelect">
+                <option value="all">All Categories</option>
+                <option value="Interior">Interior</option>
+                <option value="Lighting">Lighting</option>
+                <option value="Cleaning">Cleaning</option>
+                <option value="Safety">Safety</option>
+                <option value="Electronics">Electronics</option>
+                <option value="Exterior">Exterior</option>
+                <option value="Comfort">Comfort</option>
+            </select>
+        </div>
 
+        <div class="filter-field">
+            <label for="sortSelect">Sort products:</label>
+            <select id="sortSelect">
+                <option value="">Default</option>
+                <option value="price-low">Price: Low to High</option>
+                <option value="price-high">Price: High to Low</option>
+                <option value="name-asc">Name: A to Z</option>
+                <option value="stock-high">Stock: High to Low</option>
+                <option value="category-asc">Category: A to Z</option>
+            </select>
+        </div>
+
+        <button type="button" id="clearFiltersButton">Clear Filters</button>
+    </section>
+
+    <!-- הודעה אחרי הוספת מוצר לעגלה או במקרה של שגיאה -->
+    <div id="cartMessage"></div>
+
+    <!-- כאן יוצגו כל המוצרים בחנות -->
     <section id="productsContainer" class="products-grid"></section>
 </main>
 
+<!-- תחתית האתר -->
 <footer class="footer">
     <p>© 2026 DriveX. All rights reserved.</p>
 </footer>
 
+<!-- קבצי JavaScript שמפעילים את האתר ואת עמוד החנות -->
 <script src="/js/main.js"></script>
 <script src="/js/store.js"></script>
 </body>

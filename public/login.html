@@ -7,6 +7,7 @@
 </head>
 <body>
 
+<!-- תפריט ניווט עליון של האתר -->
 <nav class="navbar">
     <a class="logo" href="index.html">DriveX</a>
 
@@ -14,6 +15,7 @@
         <a href="index.html">Home</a>
         <a href="store.html">Store</a>
         <a href="cart.html">Cart</a>
+        <a href="support.html">Support</a>
         <a href="login.html">Login</a>
         <a href="admin.html">Admin</a>
         <span id="navUserText"></span>
@@ -21,12 +23,16 @@
     </div>
 </nav>
 
+<!-- כותרת עמוד ההתחברות וההרשמה -->
 <section class="page-header">
     <h1>Login / Create Account</h1>
     <p>Access your DriveX account or create a new customer account.</p>
 </section>
 
+<!-- אזור ראשי עם טפסים להתחברות ולהרשמה -->
 <main class="auth-container">
+
+    <!-- טופס התחברות למשתמש קיים -->
     <div class="auth-box">
         <h2>Login</h2>
 
@@ -36,9 +42,11 @@
             <button type="submit">Login</button>
         </form>
 
+        <!-- כאן תופיע הודעה על הצלחה או שגיאה בהתחברות -->
         <p id="loginMessage"></p>
     </div>
 
+    <!-- טופס יצירת חשבון חדש -->
     <div class="auth-box">
         <h2>Create Account</h2>
 
@@ -48,14 +56,17 @@
             <button type="submit">Create Account</button>
         </form>
 
+        <!-- כאן תופיע הודעה על הצלחה או שגיאה בהרשמה -->
         <p id="signupMessage"></p>
     </div>
 </main>
 
+<!-- תחתית האתר -->
 <footer class="footer">
     <p>© 2026 DriveX. All rights reserved.</p>
 </footer>
 
+<!-- קבצי JavaScript שמפעילים התחברות והרשמה -->
 <script src="js/main.js"></script>
 <script src="js/auth.js"></script>
 </body>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DriveX - Support</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<!-- תפריט ניווט עליון של האתר -->
+<nav class="navbar">
+    <a class="logo" href="index.html">DriveX</a>
+
+    <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="store.html">Store</a>
+        <a href="cart.html">Cart</a>
+        <a href="support.html">Support</a>
+        <a href="login.html">Login</a>
+        <a href="admin.html">Admin</a>
+        <span id="navUserText"></span>
+        <button id="logoutButton" class="logout-button">Logout</button>
+    </div>
+</nav>
+
+<!-- כותרת עמוד שירות לקוחות -->
+<section class="page-header">
+    <h1>Customer Support</h1>
+    <p>Need help with an order or a product? Send us a message.</p>
+</section>
+
+<!-- התוכן הראשי של שירות הלקוחות -->
+<main class="support-container">
+    <section class="support-card">
+        <h2>Contact Us</h2>
+
+        <form id="supportForm">
+            <input type="text" id="supportFullName" placeholder="Full Name" required>
+            <input type="email" id="supportEmail" placeholder="Email" required>
+            <input type="text" id="supportSubject" placeholder="Subject" required>
+            <input type="text" id="supportOrderNumber" placeholder="Order Number (optional)">
+            <textarea id="supportMessageInput" placeholder="Write your message here" required></textarea>
+            <button type="submit">Send Message</button>
+        </form>
+
+        <p id="supportMessage"></p>
+    </section>
+
+    <section class="support-card support-info-card">
+        <h2>Support Information</h2>
+        <p><strong>Email:</strong> support@drivex-demo.com</p>
+        <p><strong>Phone:</strong> 03-0000000</p>
+        <p><strong>Working Hours:</strong> Sunday - Thursday, 09:00 - 17:00</p>
+        <p>This is a demo support system. Messages are saved in MongoDB and can be viewed by the admin.</p>
+    </section>
+</main>
+
+<!-- תחתית האתר -->
+<footer class="footer">
+    <p>© 2026 DriveX. All rights reserved.</p>
+</footer>
+
+<!-- קבצי JavaScript שמפעילים את האתר ואת שירות הלקוחות -->
+<script src="/js/main.js"></script>
+<script src="/js/support.js"></script>
+</body>
+</html>

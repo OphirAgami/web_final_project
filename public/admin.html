@@ -2,17 +2,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>DriveX | Admin Dashboard</title>
+    <title>DriveX - Admin Dashboard</title>
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 
+<!-- תפריט ניווט עליון של האתר -->
 <nav class="navbar">
     <a class="logo" href="index.html">DriveX</a>
     <div class="nav-links">
         <a href="index.html">Home</a>
         <a href="store.html">Store</a>
         <a href="cart.html">Cart</a>
+        <a href="support.html">Support</a>
         <a href="login.html">Login</a>
         <a href="admin.html">Admin</a>
         <span id="navUserText"></span>
@@ -20,58 +22,79 @@
     </div>
 </nav>
 
+<!-- כותרת עמוד הניהול -->
 <section class="page-header">
     <h1>Admin Dashboard</h1>
-    <p>Manage products, orders and store statistics</p>
+    <p>Manage products, view orders, support tickets and store statistics</p>
 </section>
 
+<!-- הודעות למנהל, למשל שגיאות או הצלחות -->
 <p id="adminMessage"></p>
 
+<!-- התוכן הראשי של דף הניהול -->
 <main id="adminContent" class="admin-container">
+
+    <!-- טופס להוספה או עריכה של מוצר -->
     <section class="admin-card product-form-card">
         <h2>Add / Edit Product</h2>
 
         <form id="productForm">
+            <!-- שדה מוסתר ששומר את מזהה המוצר בזמן עריכה -->
             <input type="hidden" id="productId">
 
+            <!-- פרטי המוצר שהמנהל מזין -->
             <input type="text" id="productName" placeholder="Product Name" required>
             <input type="text" id="productCategory" placeholder="Category" required>
             <input type="number" id="productPrice" placeholder="Price" required>
-            <input type="text" id="productImage" placeholder="Image URL" required>
+            <input type="text" id="productImage" placeholder="Image URL">
             <input type="number" id="productStock" placeholder="Stock" required>
             <textarea id="productDescription" placeholder="Description" required></textarea>
 
+            <!-- כפתורי שמירה וביטול עריכה -->
             <button id="saveProductButton" type="submit">Save Product</button>
             <button id="cancelEditButton" type="button" style="display: none;">Cancel Edit</button>
         </form>
     </section>
 
+    <!-- אזור להצגת וניהול כל המוצרים -->
     <section class="admin-card products-management-card">
         <h2>Manage Products</h2>
         <div id="adminProductsContainer"></div>
     </section>
 
+    <!-- אזור סטטיסטיקות של החנות -->
     <section class="admin-card">
         <h2>Store Statistics</h2>
         <p>These charts are created from MongoDB aggregate queries.</p>
 
+        <!-- גרף כמות מוצרים לפי קטגוריה -->
         <h3>Products by Category</h3>
         <canvas id="categoryChart"></canvas>
 
+        <!-- גרף מחיר ממוצע לפי קטגוריה -->
         <h3>Average Price by Category</h3>
         <canvas id="averagePriceChart"></canvas>
     </section>
 
+    <!-- אזור להצגת הזמנות אחרונות -->
     <section class="admin-card">
         <h2>Recent Orders</h2>
         <div id="adminOrdersContainer"></div>
     </section>
+
+    <!-- אזור להצגת פניות שירות לקוחות -->
+    <section class="admin-card">
+        <h2>Customer Support Tickets</h2>
+        <div id="adminSupportContainer"></div>
+    </section>
 </main>
 
+<!-- תחתית האתר -->
 <footer class="footer">
     <p>© 2026 DriveX. All rights reserved.</p>
 </footer>
 
+<!-- ספרייה לגרפים וקבצי JavaScript של האתר -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="/js/main.js"></script>
 <script src="/js/admin.js"></script>
