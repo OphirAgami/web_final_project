@@ -292,8 +292,8 @@ checkoutForm.addEventListener("submit", async function (event) {
         showMessage("Payment approved! Order created successfully.", true);
 
         setTimeout(function () {
-            window.location.href = "store.html";
-        }, 3000);
+            window.location.href = "my-orders.html";
+            }, 3000);
     } catch (error) {
         showMessage("Error completing checkout.", false);
     }

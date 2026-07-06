@@ -569,6 +569,22 @@ app.delete("/api/orders/:id", requireAdmin, async function (req, res) {
         });
     }
 });
+// שליפת הזמנות של לקוח לפי שם משתמש
+app.get("/api/orders/customer/:username", async function (req, res) {
+    try {
+        const username = req.params.username;
+
+        const orders = await Order.find({
+            customerUsername: username,
+        }).sort({ createdAt: -1 });
+
+        res.json(orders);
+    } catch (error) {
+        res.status(500).json({
+            message: "Error loading customer orders",
+        });
+    }
+});
 
 /* -------------------------------
    Support Tickets

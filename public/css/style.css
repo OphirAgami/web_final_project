@@ -1129,3 +1129,95 @@ canvas {
         grid-template-columns: 1fr;
     }
 }
+/* =========================
+   My Orders Page
+   ========================= */
+
+.orders-page-container {
+    max-width: 1100px;
+    margin: 35px auto;
+    padding: 25px;
+}
+
+.orders-page-card {
+    background: white;
+    border-radius: 18px;
+    padding: 28px;
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
+}
+
+.orders-page-card h2 {
+    margin-top: 0;
+}
+
+.orders-page-intro {
+    color: #4b5563;
+    margin-bottom: 24px;
+}
+
+.customer-order-card {
+    background: #f9fafb;
+    border-radius: 18px;
+    padding: 22px;
+    margin-bottom: 22px;
+    border-left: 5px solid #2563eb;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+}
+
+.customer-order-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+    align-items: flex-start;
+    border-bottom: 1px solid #e5e7eb;
+    padding-bottom: 14px;
+    margin-bottom: 16px;
+}
+
+.customer-order-header h3 {
+    margin: 0 0 6px;
+}
+
+.order-date {
+    margin: 0;
+    color: #6b7280;
+    font-size: 14px;
+}
+
+.order-status {
+    background: #dcfce7;
+    color: #166534;
+    padding: 7px 13px;
+    border-radius: 999px;
+    font-weight: bold;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+.customer-order-card p {
+    color: #374151;
+    margin: 8px 0;
+}
+
+.customer-order-section {
+    background: white;
+    border-radius: 14px;
+    padding: 16px;
+    margin-top: 16px;
+    border: 1px solid #e5e7eb;
+}
+
+.customer-order-section h4 {
+    margin: 0 0 10px;
+    color: #111827;
+}
+
+@media (max-width: 700px) {
+    .customer-order-header {
+        flex-direction: column;
+    }
+
+    .order-status {
+        width: fit-content;
+    }
+}

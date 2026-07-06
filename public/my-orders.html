@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DriveX - My Orders</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<!-- תפריט ניווט עליון של האתר -->
+<nav class="navbar">
+    <a class="logo" href="index.html">DriveX</a>
+
+    <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="store.html">Store</a>
+        <a href="cart.html">Cart</a>
+        <a href="my-orders.html">My Orders</a>
+        <a href="support.html">Support</a>
+        <a href="login.html">Login</a>
+        <a href="admin.html">Admin</a>
+        <span id="navUserText"></span>
+        <button id="logoutButton" class="logout-button">Logout</button>
+    </div>
+</nav>
+
+<!-- כותרת עמוד ההזמנות של הלקוח -->
+<section class="page-header">
+    <h1>My Orders</h1>
+    <p>View your completed DriveX orders, payment details and delivery information.</p>
+</section>
+
+<!-- התוכן הראשי של עמוד ההזמנות -->
+<main class="orders-page-container">
+
+    <section class="orders-page-card">
+        <h2>Your Order History</h2>
+
+        <p class="orders-page-intro">
+            Here you can see all the orders you completed through the DriveX checkout.
+        </p>
+
+        <div id="customerOrdersContainer"></div>
+    </section>
+
+</main>
+
+<!-- תחתית האתר -->
+<footer class="footer">
+    <p>© 2026 DriveX. All rights reserved.</p>
+</footer>
+
+<script src="/js/main.js"></script>
+<script src="/js/my-orders.js"></script>
+</body>
+</html>
