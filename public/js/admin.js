@@ -374,6 +374,7 @@ async function loadOrders() {
                 <p><strong>Payment:</strong> ${escapeHtml(payment.method || "")}, ${escapeHtml(payment.status || "")}, Last 4: ${escapeHtml(payment.last4 || "")}</p>
                 <p><strong>Status:</strong> ${escapeHtml(order.status)}</p>
                 <p><strong>Date:</strong> ${new Date(order.createdAt).toLocaleString()}</p>
+                <button type="button" class="delete-button" onclick="deleteOrder('${order._id}')">Delete Order</button>
             `;
 
             adminOrdersContainer.appendChild(orderDiv);
@@ -383,6 +384,33 @@ async function loadOrders() {
     }
 }
 
+// מחיקת הזמנה מתוך עמוד הניהול
+async function deleteOrder(orderId) {
+    const confirmDelete = confirm("Are you sure you want to delete this order?");
+
+    if (!confirmDelete) {
+        return;
+    }
+
+    try {
+        const response = await fetch("/api/orders/" + orderId, {
+            method: "DELETE",
+            headers: getAdminHeaders(),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            alert(data.message || "Error deleting order");
+            return;
+        }
+
+        alert("Order deleted successfully");
+        loadOrders();
+    } catch (error) {
+        alert("Error deleting order");
+    }
+}
 // טעינת פניות שירות לקוחות לאזור הניהול
 async function loadSupportTickets() {
     if (!adminSupportContainer) {

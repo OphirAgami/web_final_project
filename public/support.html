@@ -37,8 +37,18 @@
         <form id="supportForm">
             <input type="text" id="supportFullName" placeholder="Full Name" required>
             <input type="email" id="supportEmail" placeholder="Email" required>
-            <input type="text" id="supportSubject" placeholder="Subject" required>
-            <input type="text" id="supportOrderNumber" placeholder="Order Number (optional)">
+            <select id="subject" required>
+                <option value="">Choose support topic</option>
+                <option value="Question about shipping">Question about shipping</option>
+                <option value="Order status">Order status</option>
+                <option value="Payment problem">Payment problem</option>
+                <option value="Product question">Product question</option>
+                <option value="Return or refund request">Return or refund request</option>
+                <option value="Damaged product">Damaged product</option>
+                <option value="Account or login problem">Account or login problem</option>
+                <option value="Technical issue on the website">Technical issue on the website</option>
+                <option value="Other">Other</option>
+            </select>            <input type="text" id="supportOrderNumber" placeholder="Order Number (optional)">
             <textarea id="supportMessageInput" placeholder="Write your message here" required></textarea>
             <button type="submit">Send Message</button>
         </form>

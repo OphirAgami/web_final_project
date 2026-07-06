@@ -294,10 +294,10 @@ app.get("/api/stats/average-price-by-category", requireAdmin, async function (re
 /* -------------------------------
    Seed Products
 -------------------------------- */
-
-// יצירת מוצרים לדוגמה במסד הנתונים
+// יצירת מוצרים לדוגמה במסד הנתונים עם תמונות מקומיות מתוך public/images/products
 app.get("/api/products/seed", async function (req, res) {
     try {
+        // מוחק מוצרים קיימים לפני הכנסת הדוגמאות החדשות
         await Product.deleteMany();
 
         const products = await Product.insertMany([
@@ -305,8 +305,8 @@ app.get("/api/products/seed", async function (req, res) {
                 name: "Car Phone Holder",
                 category: "Interior",
                 price: 49,
-                image: "",
-                imageUrl: "",
+                image: "/images/products/phone-holder.jpg",
+                imageUrl: "/images/products/phone-holder.jpg",
                 stock: 25,
                 description: "Adjustable phone holder for safe and comfortable driving.",
             },
@@ -314,8 +314,8 @@ app.get("/api/products/seed", async function (req, res) {
                 name: "Premium Seat Covers",
                 category: "Interior",
                 price: 199,
-                image: "",
-                imageUrl: "",
+                image: "/images/products/seat-covers.jpg",
+                imageUrl: "/images/products/seat-covers.jpg",
                 stock: 12,
                 description: "Luxury seat covers that upgrade the interior look of the car.",
             },
@@ -323,8 +323,8 @@ app.get("/api/products/seed", async function (req, res) {
                 name: "Car Organizer Box",
                 category: "Interior",
                 price: 39,
-                image: "",
-                imageUrl: "",
+                image: "/images/products/organizer-box.jpg",
+                imageUrl: "/images/products/organizer-box.jpg",
                 stock: 30,
                 description: "Useful organizer for documents, tools and small accessories.",
             },
@@ -332,8 +332,8 @@ app.get("/api/products/seed", async function (req, res) {
                 name: "LED Headlight Kit",
                 category: "Lighting",
                 price: 129,
-                image: "",
-                imageUrl: "",
+                image: "/images/products/led-headlight.jpg",
+                imageUrl: "/images/products/led-headlight.jpg",
                 stock: 10,
                 description: "Powerful LED lights for better visibility at night.",
             },
@@ -341,8 +341,8 @@ app.get("/api/products/seed", async function (req, res) {
                 name: "Ambient Interior Lights",
                 category: "Lighting",
                 price: 89,
-                image: "",
-                imageUrl: "",
+                image: "/images/products/ambient-lights.jpg",
+                imageUrl: "/images/products/ambient-lights.jpg",
                 stock: 18,
                 description: "Colorful ambient lights for a premium interior atmosphere.",
             },
@@ -350,8 +350,8 @@ app.get("/api/products/seed", async function (req, res) {
                 name: "Fog Light Bulbs",
                 category: "Lighting",
                 price: 59,
-                image: "",
-                imageUrl: "",
+                image: "/images/products/fog-lights.jpg",
+                imageUrl: "/images/products/fog-lights.jpg",
                 stock: 20,
                 description: "Fog light bulbs for safer driving in rain and fog.",
             },
@@ -359,8 +359,8 @@ app.get("/api/products/seed", async function (req, res) {
                 name: "Car Cleaning Kit",
                 category: "Cleaning",
                 price: 79,
-                image: "",
-                imageUrl: "",
+                image: "/images/products/cleaning-kit.jpg",
+                imageUrl: "/images/products/cleaning-kit.jpg",
                 stock: 22,
                 description: "Complete cleaning kit for interior and exterior care.",
             },
@@ -368,8 +368,8 @@ app.get("/api/products/seed", async function (req, res) {
                 name: "Microfiber Towels Pack",
                 category: "Cleaning",
                 price: 25,
-                image: "",
-                imageUrl: "",
+                image: "/images/products/microfiber-towels.jpg",
+                imageUrl: "/images/products/microfiber-towels.jpg",
                 stock: 40,
                 description: "Soft microfiber towels for cleaning without scratches.",
             },
@@ -377,8 +377,8 @@ app.get("/api/products/seed", async function (req, res) {
                 name: "Anti Fog Spray",
                 category: "Cleaning",
                 price: 35,
-                image: "",
-                imageUrl: "",
+                image: "/images/products/anti-fog-spray.jpg",
+                imageUrl: "/images/products/anti-fog-spray.jpg",
                 stock: 28,
                 description: "Anti fog spray for clear windows during rainy weather.",
             },
@@ -386,8 +386,8 @@ app.get("/api/products/seed", async function (req, res) {
                 name: "Emergency Safety Kit",
                 category: "Safety",
                 price: 99,
-                image: "",
-                imageUrl: "",
+                image: "/images/products/safety-kit.jpg",
+                imageUrl: "/images/products/safety-kit.jpg",
                 stock: 14,
                 description: "Safety kit including warning triangle, vest and basic tools.",
             },
@@ -395,8 +395,8 @@ app.get("/api/products/seed", async function (req, res) {
                 name: "Tire Pressure Gauge",
                 category: "Safety",
                 price: 29,
-                image: "",
-                imageUrl: "",
+                image: "/images/products/tire-gauge.jpg",
+                imageUrl: "/images/products/tire-gauge.jpg",
                 stock: 32,
                 description: "Simple tool for checking tire pressure before driving.",
             },
@@ -404,8 +404,8 @@ app.get("/api/products/seed", async function (req, res) {
                 name: "Dash Camera",
                 category: "Electronics",
                 price: 149,
-                image: "",
-                imageUrl: "",
+                image: "/images/products/dash-camera.jpg",
+                imageUrl: "/images/products/dash-camera.jpg",
                 stock: 9,
                 description: "High quality dash camera for recording your drives.",
             },
@@ -413,8 +413,8 @@ app.get("/api/products/seed", async function (req, res) {
                 name: "USB Car Charger",
                 category: "Electronics",
                 price: 19,
-                image: "",
-                imageUrl: "",
+                image: "/images/products/usb-charger.jpg",
+                imageUrl: "/images/products/usb-charger.jpg",
                 stock: 50,
                 description: "Fast USB charger for phones and other devices.",
             },
@@ -422,8 +422,8 @@ app.get("/api/products/seed", async function (req, res) {
                 name: "Bluetooth FM Transmitter",
                 category: "Electronics",
                 price: 45,
-                image: "",
-                imageUrl: "",
+                image: "/images/products/bluetooth-transmitter.jpg",
+                imageUrl: "/images/products/bluetooth-transmitter.jpg",
                 stock: 24,
                 description: "Bluetooth music and hands free calls for older vehicles.",
             },
@@ -431,8 +431,8 @@ app.get("/api/products/seed", async function (req, res) {
                 name: "Car Cover",
                 category: "Exterior",
                 price: 119,
-                image: "",
-                imageUrl: "",
+                image: "/images/products/car-cover.jpg",
+                imageUrl: "/images/products/car-cover.jpg",
                 stock: 11,
                 description: "Protective car cover against sun, dust and rain.",
             },
@@ -440,8 +440,8 @@ app.get("/api/products/seed", async function (req, res) {
                 name: "Windshield Sunshade",
                 category: "Exterior",
                 price: 34,
-                image: "",
-                imageUrl: "",
+                image: "/images/products/sunshade.jpg",
+                imageUrl: "/images/products/sunshade.jpg",
                 stock: 36,
                 description: "Sunshade that keeps the car cooler on hot days.",
             },
@@ -449,8 +449,8 @@ app.get("/api/products/seed", async function (req, res) {
                 name: "Sport Steering Wheel Cover",
                 category: "Comfort",
                 price: 44,
-                image: "",
-                imageUrl: "",
+                image: "/images/products/steering-cover.jpg",
+                imageUrl: "/images/products/steering-cover.jpg",
                 stock: 19,
                 description: "Comfortable steering wheel cover with sporty design.",
             },
@@ -458,15 +458,15 @@ app.get("/api/products/seed", async function (req, res) {
                 name: "Memory Foam Neck Pillow",
                 category: "Comfort",
                 price: 55,
-                image: "",
-                imageUrl: "",
+                image: "/images/products/neck-pillow.jpg",
+                imageUrl: "/images/products/neck-pillow.jpg",
                 stock: 21,
                 description: "Memory foam pillow for better comfort on long drives.",
             },
         ]);
 
         res.json({
-            message: "Sample products created successfully",
+            message: "Sample products created successfully with local product images",
             products: products,
         });
     } catch (error) {
@@ -544,6 +544,28 @@ app.get("/api/orders", requireAdmin, async function (req, res) {
     } catch (error) {
         res.status(500).json({
             message: "Error loading orders",
+        });
+    }
+});
+// מחיקת הזמנה לפי מזהה - מנהל בלבד
+app.delete("/api/orders/:id", requireAdmin, async function (req, res) {
+    try {
+        const orderId = req.params.id;
+
+        const deletedOrder = await Order.findByIdAndDelete(orderId);
+
+        if (!deletedOrder) {
+            return res.status(404).json({
+                message: "Order not found",
+            });
+        }
+
+        res.json({
+            message: "Order deleted successfully",
+        });
+    } catch (error) {
+        res.status(500).json({
+            message: "Error deleting order",
         });
     }
 });
