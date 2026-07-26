@@ -78,9 +78,12 @@ async function loadCustomerOrders() {
                     <span class="order-status">${escapeHtml(order.status)}</span>
                 </div>
 
+                <p><strong>Order Number:</strong> ${escapeHtml(order.orderNumber || order._id)}</p>
                 <p><strong>Products:</strong> ${productsText}</p>
                 <p><strong>Subtotal:</strong> $${order.subtotal}</p>
                 <p><strong>Shipping:</strong> $${order.shippingFee}</p>
+                <p><strong>Coupon:</strong> ${escapeHtml(order.couponCode || "No coupon")}</p>
+<p><strong>Discount:</strong> -$${order.discountAmount || 0}</p>
                 <p><strong>Total:</strong> $${order.totalPrice}</p>
                 <p><strong>Delivery:</strong> ${escapeHtml(order.deliveryDays)}</p>
 

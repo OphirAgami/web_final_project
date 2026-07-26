@@ -1,78 +1,154 @@
-// ייבוא mongoose כדי לבנות מודל למסד הנתונים
+// מייבא את ספריית Mongoose כדי ליצור Schema ולעבוד עם MongoDB.
 const mongoose = require("mongoose");
 
-// יצירת מבנה הנתונים של הזמנה מלאה בחנות
-const orderSchema = new mongoose.Schema(
-    {
-        // שם המשתמש שביצע את ההזמנה
-        customerUsername: {
-            type: String,
-            required: true,
-        },
+// יוצר Schema שמגדיר כיצד מסמך של הזמנה יישמר במסד הנתונים.
+const orderSchema = new mongoose.Schema({
+    // מספר הזמנה ייחודי שמוצג ללקוח ולמנהל.
+    orderNumber: {
+        // מספר ההזמנה נשמר כמחרוזת, לדוגמה: DX-2026-12345.
+        type: String,
 
-        // רשימת המוצרים שנמצאים בתוך ההזמנה
-        items: [
-            {
-                productId: String,
-                name: String,
-                price: Number,
-                image: String,
-                quantity: Number,
-            },
-        ],
+        // מונע שמירה של שתי הזמנות עם אותו מספר הזמנה.
+        unique: true,
 
-        // מחיר המוצרים לפני משלוח
-        subtotal: {
-            type: Number,
-            default: 0,
-        },
-
-        // דמי משלוח לפי המדינה שנבחרה
-        shippingFee: {
-            type: Number,
-            default: 0,
-        },
-
-        // זמן משלוח משוער לפי המדינה שנבחרה
-        deliveryDays: {
-            type: String,
-            default: "",
-        },
-
-        // מחיר סופי כולל משלוח
-        totalPrice: {
-            type: Number,
-            required: true,
-        },
-
-        // כתובת משלוח מלאה שהלקוח הזין בעמוד checkout
-        shippingAddress: {
-            fullName: String,
-            phone: String,
-            country: String,
-            city: String,
-            street: String,
-            zipCode: String,
-        },
-
-        // פרטי תשלום דמו בלבד - לא שומרים מספר כרטיס מלא
-        payment: {
-            method: String,
-            status: String,
-            last4: String,
-        },
-
-        // סטטוס ההזמנה לאחר תשלום דמו מוצלח
-        status: {
-            type: String,
-            default: "Paid - Processing",
-        },
+        // מאפשר למסמכים ישנים ללא orderNumber להישמר בלי לפגוע בייחודיות.
+        sparse: true,
     },
-    {
-        // מוסיף אוטומטית createdAt ו-updatedAt
-        timestamps: true,
-    }
-);
 
-// ייצוא המודל כדי שאפשר יהיה להשתמש בו ב-server.js
+    // שם המשתמש או כתובת האימייל של הלקוח שביצע את ההזמנה.
+    customerUsername: {
+        // שם המשתמש נשמר כמחרוזת.
+        type: String,
+
+        // חובה לשמור משתמש עבור כל הזמנה.
+        required: true,
+    },
+
+    // מערך שמכיל את כל המוצרים שנרכשו בהזמנה.
+    items: [
+        {
+            // המזהה של המוצר המקורי מתוך אוסף המוצרים.
+            productId: String,
+
+            // שם המוצר בזמן ביצוע ההזמנה.
+            name: String,
+
+            // מחיר המוצר בזמן ביצוע ההזמנה.
+            price: Number,
+
+            // כתובת התמונה של המוצר.
+            image: String,
+
+            // הכמות שהלקוח הזמין מהמוצר.
+            quantity: Number,
+        },
+    ],
+
+    // הסכום הכולל של המוצרים לפני משלוח והנחה.
+    subtotal: {
+        // הסכום נשמר כמספר.
+        type: Number,
+
+        // אם לא נשלח סכום, ערך ברירת המחדל יהיה 0.
+        default: 0,
+    },
+
+    // עלות המשלוח של ההזמנה.
+    shippingFee: {
+        // עלות המשלוח נשמרת כמספר.
+        type: Number,
+
+        // אם אין עלות משלוח, ערך ברירת המחדל יהיה 0.
+        default: 0,
+    },
+
+    // קוד הקופון שהלקוח הפעיל בהזמנה.
+    couponCode: {
+        // קוד הקופון נשמר כמחרוזת.
+        type: String,
+
+        // אם לא הופעל קופון, תישמר מחרוזת ריקה.
+        default: "",
+    },
+
+    // סכום הכסף שהופחת מההזמנה בעקבות הקופון.
+    discountAmount: {
+        // סכום ההנחה נשמר כמספר.
+        type: Number,
+
+        // אם לא ניתנה הנחה, ערך ברירת המחדל יהיה 0.
+        default: 0,
+    },
+
+    // זמן המשלוח המשוער שהוצג ללקוח.
+    deliveryDays: {
+        // זמן המשלוח נשמר כטקסט, לדוגמה: 3-5 business days.
+        type: String,
+
+        // אם לא התקבל זמן משלוח, תישמר מחרוזת ריקה.
+        default: "",
+    },
+
+    // המחיר הסופי של ההזמנה לאחר משלוח והנחה.
+    totalPrice: {
+        // המחיר הסופי נשמר כמספר.
+        type: Number,
+
+        // חובה לשמור מחיר סופי עבור כל הזמנה.
+        required: true,
+    },
+
+    // אובייקט שמכיל את כתובת המשלוח ופרטי מקבל ההזמנה.
+    shippingAddress: {
+        // השם המלא של מקבל ההזמנה.
+        fullName: String,
+
+        // מספר הטלפון של מקבל ההזמנה.
+        phone: String,
+
+        // המדינה שאליה ההזמנה נשלחת.
+        country: String,
+
+        // העיר שאליה ההזמנה נשלחת.
+        city: String,
+
+        // הרחוב והכתובת של מקבל ההזמנה.
+        street: String,
+
+        // המיקוד של כתובת המשלוח.
+        zipCode: String,
+    },
+
+    // אובייקט שמכיל מידע על אמצעי התשלום.
+    payment: {
+        // סוג אמצעי התשלום, לדוגמה כרטיס אשראי או Google Pay.
+        method: String,
+
+        // מצב התשלום, לדוגמה Paid - Demo.
+        status: String,
+
+        // ארבע הספרות האחרונות של הכרטיס או סימון של Google Pay.
+        last4: String,
+    },
+
+    // מצב הטיפול הנוכחי בהזמנה.
+    status: {
+        // סטטוס ההזמנה נשמר כמחרוזת.
+        type: String,
+
+        // כל הזמנה חדשה מתחילה כברירת מחדל במצב טיפול.
+        default: "Paid - Processing",
+    },
+
+    // התאריך והשעה שבהם ההזמנה נוצרה.
+    createdAt: {
+        // התאריך נשמר מסוג Date.
+        type: Date,
+
+        // Date.now שומר אוטומטית את זמן יצירת ההזמנה.
+        default: Date.now,
+    },
+});
+
+// יוצר מודל בשם Order מתוך ה-Schema ומייצא אותו לשימוש בקבצים אחרים.
 module.exports = mongoose.model("Order", orderSchema);

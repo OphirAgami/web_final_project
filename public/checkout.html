@@ -53,6 +53,15 @@
             <input type="text" id="street" placeholder="Street and House Number" required>
             <input type="text" id="zipCode" placeholder="ZIP / Postal Code">
 
+            <h2>Coupon Code</h2>
+
+            <div class="coupon-box">
+                <input type="text" id="couponCodeInput" placeholder="Enter coupon code">
+                <button type="button" id="applyCouponButton">Apply Coupon</button>
+            </div>
+
+            <p id="couponMessage"></p>
+
             <h2>Payment Method</h2>
 
             <div class="payment-methods">
@@ -99,6 +108,7 @@
         <div class="checkout-summary">
             <p id="subtotalText">Subtotal: $0</p>
             <p id="shippingText">Shipping: $0</p>
+            <p id="discountText">Discount: $0</p>
             <p id="deliveryText">Delivery: Choose country</p>
             <h3 id="totalText">Total: $0</h3>
         </div>

@@ -11,11 +11,24 @@ const searchInput = document.getElementById("searchInput");
 const categorySelect = document.getElementById("categorySelect");
 const clearFiltersButton = document.getElementById("clearFiltersButton");
 
+// תפיסת אלמנטים של חלון פרטי המוצר
+const productDetailsModal = document.getElementById("productDetailsModal");
+const closeProductModalButton = document.getElementById("closeProductModalButton");
+const modalProductImage = document.getElementById("modalProductImage");
+const modalProductCategory = document.getElementById("modalProductCategory");
+const modalProductName = document.getElementById("modalProductName");
+const modalProductDescription = document.getElementById("modalProductDescription");
+const modalProductPrice = document.getElementById("modalProductPrice");
+const modalProductIlsPrice = document.getElementById("modalProductIlsPrice");
+const modalProductStock = document.getElementById("modalProductStock");
+const modalAddToCartButton = document.getElementById("modalAddToCartButton");
+
 // משתנים לשמירת שער הדולר, רשימת המוצרים וטיימרים
 let usdToIlsRate = null;
 let productsList = [];
 let searchTimeout = null;
 let cartRedirectTimeout = null;
+let selectedModalProductId = null;
 
 // פונקציה שמונעת הכנסת HTML לא רצוי לתוך הדף
 function escapeHtml(value) {
@@ -41,6 +54,76 @@ function getFallbackImage(productName) {
     `;
 
     return "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(svgImage);
+}
+
+// החזרת תגית שיווקית למוצר, כמו בחנות אמיתית
+function getProductBadge(product) {
+    if (product.stock <= 0) {
+        return {
+            text: "Out of Stock",
+            className: "badge-low-stock",
+        };
+    }
+
+    if (product.stock <= 10) {
+        return {
+            text: "Low Stock",
+            className: "badge-low-stock",
+        };
+    }
+
+    if (product.name === "Dash Camera" || product.name === "Car Phone Holder") {
+        return {
+            text: "Best Seller",
+            className: "badge-best-seller",
+        };
+    }
+
+    if (product.name === "USB Car Charger" || product.name === "Ambient Interior Lights") {
+        return {
+            text: "New",
+            className: "badge-new",
+        };
+    }
+
+    if (product.name === "Anti Fog Spray" || product.name === "Windshield Sunshade") {
+        return {
+            text: "Recommended",
+            className: "badge-recommended",
+        };
+    }
+
+    return null;
+}
+
+// יצירת HTML של תגית המוצר
+function getProductBadgeHtml(product) {
+    const badge = getProductBadge(product);
+
+    if (!badge) {
+        return "";
+    }
+
+    return `<span class="product-badge ${badge.className}">${badge.text}</span>`;
+}
+
+// יצירת כפתורי פעולה למוצר לפי מצב המלאי
+function getProductActionsHtml(product) {
+    if (product.stock <= 0) {
+        return `
+            <div class="product-card-actions">
+                <button type="button" onclick="openProductDetailsModal('${product._id}')">View Details</button>
+                <button type="button" class="disabled-cart-button" disabled>Out of Stock</button>
+            </div>
+        `;
+    }
+
+    return `
+        <div class="product-card-actions">
+            <button type="button" onclick="openProductDetailsModal('${product._id}')">View Details</button>
+            <button type="button" onclick="addToCart('${product._id}')">Add to Cart</button>
+        </div>
+    `;
 }
 
 // בניית כתובת השליפה לפי מיון, קטגוריה וחיפוש
@@ -80,7 +163,12 @@ async function loadProducts() {
         productsContainer.innerHTML = "";
 
         if (products.length === 0) {
-            productsContainer.innerHTML = "<p>No products found.</p>";
+            productsContainer.innerHTML = `
+                <div class="empty-store-message">
+                    <h3>No products found</h3>
+                    <p>Try another search term or choose a different category.</p>
+                </div>
+            `;
             return;
         }
 
@@ -93,6 +181,8 @@ async function loadProducts() {
             productCard.className = "product-card";
 
             productCard.innerHTML = `
+                ${getProductBadgeHtml(product)}
+
                 <img
                     src="${escapeHtml(productImage)}"
                     alt="${escapeHtml(product.name)}"
@@ -106,7 +196,7 @@ async function loadProducts() {
                 <p class="price-ils">${getIlsPrice(product.price)}</p>
                 <p class="stock">In stock: ${product.stock}</p>
 
-                <button onclick="addToCart('${product._id}')">Add to Cart</button>
+                ${getProductActionsHtml(product)}
             `;
 
             productsContainer.appendChild(productCard);
@@ -175,6 +265,55 @@ function getWeatherRecommendation(temperature, rain, windSpeed) {
     return "Current weather: " + temperature + "°C. Recommended product: interior car accessories.";
 }
 
+// פתיחת חלון פרטי מוצר
+function openProductDetailsModal(productId) {
+    const product = productsList.find(function (item) {
+        return item._id === productId;
+    });
+
+    if (!product) {
+        showCartMessage("Product not found.", false);
+        return;
+    }
+
+    selectedModalProductId = productId;
+
+    const fallbackImage = getFallbackImage(product.name);
+    const productImage = product.image || product.imageUrl || fallbackImage;
+
+    modalProductImage.src = productImage;
+    modalProductImage.alt = product.name;
+    modalProductImage.onerror = function () {
+        modalProductImage.onerror = null;
+        modalProductImage.src = fallbackImage;
+    };
+
+    modalProductCategory.textContent = product.category;
+    modalProductName.textContent = product.name;
+    modalProductDescription.textContent = product.description;
+    modalProductPrice.textContent = "$" + product.price;
+    modalProductIlsPrice.textContent = getIlsPrice(product.price);
+    modalProductStock.textContent = "In stock: " + product.stock;
+
+    if (product.stock <= 0) {
+        modalAddToCartButton.disabled = true;
+        modalAddToCartButton.textContent = "Out of Stock";
+        modalAddToCartButton.classList.add("disabled-cart-button");
+    } else {
+        modalAddToCartButton.disabled = false;
+        modalAddToCartButton.textContent = "Add to Cart";
+        modalAddToCartButton.classList.remove("disabled-cart-button");
+    }
+
+    productDetailsModal.classList.add("show");
+}
+
+// סגירת חלון פרטי מוצר
+function closeProductDetailsModal() {
+    productDetailsModal.classList.remove("show");
+    selectedModalProductId = null;
+}
+
 // הוספת מוצר לעגלת הקניות
 function addToCart(productId) {
     const product = productsList.find(function (item) {
@@ -186,25 +325,43 @@ function addToCart(productId) {
         return;
     }
 
+    if (product.stock <= 0) {
+        showCartMessage("This product is currently out of stock.", false);
+        return;
+    }
+
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
 
     const existingCartItem = cart.find(function (item) {
         return item._id === productId;
     });
 
+    const currentQuantityInCart = existingCartItem ? existingCartItem.quantity : 0;
+
+    if (currentQuantityInCart + 1 > product.stock) {
+        showCartMessage("Only " + product.stock + " units are available in stock.", false);
+        return;
+    }
+
     if (existingCartItem) {
         existingCartItem.quantity = existingCartItem.quantity + 1;
+        existingCartItem.stock = product.stock;
     } else {
         cart.push({
             _id: product._id,
             name: product.name,
             price: product.price,
             image: product.image || product.imageUrl || getFallbackImage(product.name),
+            stock: product.stock,
             quantity: 1,
         });
     }
 
     localStorage.setItem("cart", JSON.stringify(cart));
+
+    if (typeof updateMainLayout === "function") {
+        updateMainLayout();
+    }
 
     showCartMessage(product.name + " added to cart.", true);
 }
@@ -274,6 +431,32 @@ if (searchInput) {
     });
 }
 
+// סגירת חלון פרטי מוצר בלחיצה על X
+if (closeProductModalButton) {
+    closeProductModalButton.addEventListener("click", closeProductDetailsModal);
+}
+
+// סגירת חלון פרטי מוצר בלחיצה על הרקע הכהה
+if (productDetailsModal) {
+    productDetailsModal.addEventListener("click", function (event) {
+        if (event.target === productDetailsModal) {
+            closeProductDetailsModal();
+        }
+    });
+}
+
+// הוספה לעגלה מתוך חלון פרטי מוצר
+if (modalAddToCartButton) {
+    modalAddToCartButton.addEventListener("click", function () {
+        if (!selectedModalProductId) {
+            return;
+        }
+
+        addToCart(selectedModalProductId);
+        closeProductDetailsModal();
+    });
+}
+
 // ניקוי כל הסינונים
 if (clearFiltersButton) {
     clearFiltersButton.addEventListener("click", function () {
@@ -284,5 +467,9 @@ if (clearFiltersButton) {
         loadProducts();
     });
 }
+
+// חשיפת פונקציות לכפתורים שנוצרים דינמית בתוך productCard.innerHTML
+window.openProductDetailsModal = openProductDetailsModal;
+window.addToCart = addToCart;
 
 startStorePage();

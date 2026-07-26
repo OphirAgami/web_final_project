@@ -79,6 +79,31 @@
 
     <!-- כאן יוצגו כל המוצרים בחנות -->
     <section id="productsContainer" class="products-grid"></section>
+
+    <!-- חלון פרטי מוצר שנפתח בלחיצה על View Details -->
+    <div id="productDetailsModal" class="product-modal">
+        <div class="product-modal-content">
+            <button id="closeProductModalButton" class="modal-close-button" type="button">×</button>
+
+            <div class="product-modal-grid">
+                <div>
+                    <img id="modalProductImage" src="" alt="Product image">
+                </div>
+
+                <div>
+                    <span id="modalProductCategory" class="modal-product-category"></span>
+                    <h2 id="modalProductName"></h2>
+                    <p id="modalProductDescription"></p>
+
+                    <p id="modalProductPrice" class="modal-product-price"></p>
+                    <p id="modalProductIlsPrice" class="modal-product-ils-price"></p>
+                    <p id="modalProductStock" class="modal-product-stock"></p>
+
+                    <button id="modalAddToCartButton" type="button">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </main>
 
 <!-- תחתית האתר -->

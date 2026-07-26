@@ -25,7 +25,13 @@ function loadCart() {
     cartItemsContainer.innerHTML = "";
 
     if (cart.length === 0) {
-        cartItemsContainer.innerHTML = "<p>Your cart is empty.</p>";
+        cartItemsContainer.innerHTML = `
+            <div class="empty-cart-box">
+                <h3>Your cart is empty</h3>
+                <p>Looks like you have not added any products yet.</p>
+                <a class="main-button" href="store.html">Start Shopping</a>
+            </div>
+        `;
         cartTotalText.textContent = "Total: $0";
         return;
     }
@@ -47,6 +53,7 @@ function loadCart() {
                 <p>Price: $${item.price}</p>
                 <p>Quantity: ${item.quantity}</p>
                 <p>Item Total: $${itemTotal}</p>
+                <p>Available stock: ${item.stock || "Unknown"}</p>
 
                 <div class="cart-item-actions">
                     <button type="button" onclick="addOneItem('${item._id}')">Add One</button>
@@ -74,10 +81,19 @@ function addOneItem(productId) {
         return;
     }
 
+    if (item.stock && item.quantity >= item.stock) {
+        alert("Only " + item.stock + " units are available in stock.");
+        return;
+    }
+
     item.quantity = item.quantity + 1;
 
     saveCart(cart);
     loadCart();
+
+    if (typeof updateMainLayout === "function") {
+        updateMainLayout();
+    }
 }
 
 // הסרת יחידה אחת ממוצר
@@ -104,6 +120,10 @@ function removeOneItem(productId) {
 
     saveCart(cart);
     loadCart();
+
+    if (typeof updateMainLayout === "function") {
+        updateMainLayout();
+    }
 }
 
 // הסרת מוצר לגמרי מהעגלה
@@ -116,6 +136,10 @@ function removeItemCompletely(productId) {
 
     saveCart(updatedCart);
     loadCart();
+
+    if (typeof updateMainLayout === "function") {
+        updateMainLayout();
+    }
 }
 
 // ניקוי כל העגלה
@@ -124,6 +148,10 @@ if (clearCartButton) {
         localStorage.removeItem("cart");
         orderMessage.textContent = "";
         loadCart();
+
+        if (typeof updateMainLayout === "function") {
+            updateMainLayout();
+        }
     });
 }
 

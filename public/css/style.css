@@ -2,10 +2,12 @@
    DriveX - Full Clean Style
    ========================= */
 
+/* מחיל box-sizing על כל האלמנטים כדי ש-padding ו-border ייכללו בתוך הרוחב והגובה. */
 * {
     box-sizing: border-box;
 }
 
+/* מגדיר את עיצוב הבסיס של גוף האתר: איפוס שוליים, גופן, רקע וצבע טקסט. */
 body {
     margin: 0;
     font-family: Arial, sans-serif;
@@ -17,6 +19,7 @@ body {
    Navbar
    ========================= */
 
+/* מעצב את סרגל הניווט הראשי ואת האלמנט בעל המחלקה navbar. */
 nav,
 .navbar {
     width: 100%;
@@ -29,6 +32,7 @@ nav,
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.18);
 }
 
+/* מעצב את לוגו האתר שמופיע בתוך סרגל הניווט. */
 .logo {
     color: white;
     font-size: 28px;
@@ -36,6 +40,7 @@ nav,
     text-decoration: none;
 }
 
+/* מסדר את קישורי הניווט בשורה ממורכזת עם מרווחים ואפשרות ירידת שורה. */
 .nav-links {
     display: flex;
     align-items: center;
@@ -44,6 +49,7 @@ nav,
     flex-wrap: wrap;
 }
 
+/* מעצב את הקישורים שמופיעים בתוך סרגל הניווט. */
 nav a,
 .nav-links a {
     color: white;
@@ -53,15 +59,18 @@ nav a,
     transition: 0.2s;
 }
 
+/* משנה את צבע קישורי הניווט כאשר מצביעים עליהם. */
 nav a:hover,
 .nav-links a:hover {
     color: #38bdf8;
 }
 
+/* מסתיר את הטקסט של המשתמש בסרגל הניווט גם אם סגנון אחר מנסה להציג אותו. */
 #navUserText {
     display: none !important;
 }
 
+/* מעצב את כפתור ההתנתקות עם רקע שקוף ומסגרת לבנה. */
 .logout-button {
     background: transparent;
     color: white;
@@ -73,6 +82,7 @@ nav a:hover,
     transition: 0.2s;
 }
 
+/* מחליף את צבעי כפתור ההתנתקות בזמן מעבר עכבר. */
 .logout-button:hover {
     background: white;
     color: #111827;
@@ -82,6 +92,7 @@ nav a:hover,
    General Layout
    ========================= */
 
+/* מגדיר רוחב מרבי, מרכוז וריווח למכלים הראשיים של דפי האתר. */
 main,
 .page-container,
 .store-container,
@@ -92,6 +103,7 @@ main,
     padding: 25px;
 }
 
+/* מעצב את אזור הכותרת העליונה ואת אזור ה-Hero ככרטיס לבן וממורכז. */
 .page-header,
 .hero {
     background: white;
@@ -103,6 +115,7 @@ main,
     max-width: 1200px;
 }
 
+/* מגדיר את הגודל והצבע של הכותרת הראשית באזורי הכותרת וה-Hero. */
 .page-header h1,
 .hero h1 {
     font-size: 42px;
@@ -110,6 +123,7 @@ main,
     color: #111827;
 }
 
+/* מעצב את טקסט ההסבר שמופיע מתחת לכותרת הראשית. */
 .page-header p,
 .hero p {
     font-size: 18px;
@@ -117,12 +131,14 @@ main,
     margin: 0;
 }
 
+/* מחיל צבע אחיד על כותרות h1, h2 ו-h3 באתר. */
 h1,
 h2,
 h3 {
     color: #111827;
 }
 
+/* מוסיף לכותרות h2 רווח עליון ופס כחול בצד. */
 h2 {
     margin-top: 35px;
     border-left: 5px solid #2563eb;
@@ -133,12 +149,14 @@ h2 {
    Forms
    ========================= */
 
+/* מסדר את כל הטפסים בטור ומוסיף רווח קבוע בין השדות. */
 form {
     display: flex;
     flex-direction: column;
     gap: 14px;
 }
 
+/* מחיל עיצוב בסיסי ואחיד על שדות קלט, רשימות בחירה ואזורים לכתיבה. */
 input,
 select,
 textarea {
@@ -149,6 +167,7 @@ textarea {
     font-size: 15px;
 }
 
+/* מדגיש שדה פעיל באמצעות מסגרת כחולה וצל חיצוני. */
 input:focus,
 select:focus,
 textarea:focus {
@@ -157,6 +176,7 @@ textarea:focus {
     box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
 }
 
+/* מגדיר את עיצוב ברירת המחדל של כל הכפתורים באתר. */
 button {
     background: #2563eb;
     color: white;
@@ -168,6 +188,7 @@ button {
     transition: 0.2s;
 }
 
+/* מכהה את צבע הכפתור כאשר מצביעים עליו. */
 button:hover {
     background: #1d4ed8;
 }
@@ -176,6 +197,7 @@ button:hover {
    Login + Register Page
    ========================= */
 
+/* מסדר את אזורי ההתחברות וההרשמה ב-Grid גמיש שמתאים את מספר העמודות למסך. */
 .auth-container,
 .auth-wrapper {
     max-width: 950px;
@@ -186,6 +208,7 @@ button:hover {
     gap: 30px;
 }
 
+/* מעצב כל תיבת התחברות או הרשמה ככרטיס לבן. */
 .auth-box {
     background-color: white;
     padding: 32px;
@@ -193,6 +216,7 @@ button:hover {
     box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
 }
 
+/* ממרכז את כותרת תיבת ההתחברות ומבטל את פס ה-h2 הכללי. */
 .auth-box h2 {
     text-align: center;
     margin-top: 0;
@@ -201,16 +225,19 @@ button:hover {
     padding-left: 0;
 }
 
+/* מעצב את הכפתורים שבתיבות ההתחברות בצבע כהה ובריווח גדול יותר. */
 .auth-box button {
     padding: 13px;
     background-color: #111827;
     font-size: 16px;
 }
 
+/* משנה את צבע כפתור ההתחברות לכחול במעבר עכבר. */
 .auth-box button:hover {
     background-color: #2563eb;
 }
 
+/* ממרכז ומדגיש הודעות התחברות, הרשמה ושגיאות כלליות. */
 #loginMessage,
 #signupMessage,
 #registerMessage,
@@ -224,6 +251,7 @@ button:hover {
    Store / Products
    ========================= */
 
+/* מעצב את תיבת המיון שמופיעה מעל רשימת המוצרים. */
 .sort-box {
     background: white;
     padding: 18px;
@@ -232,6 +260,7 @@ button:hover {
     margin: 20px 0;
 }
 
+/* מסדר את כרטיסי המוצרים ב-Grid רספונסיבי. */
 .products-container,
 #productsContainer {
     display: grid;
@@ -240,6 +269,7 @@ button:hover {
     margin-top: 25px;
 }
 
+/* מעצב כרטיסי מוצר רגילים וכרטיסי מוצר באזור המנהל. */
 .product-card,
 .admin-product-card {
     background: white;
@@ -250,12 +280,14 @@ button:hover {
     overflow: hidden;
 }
 
+/* מרים מעט את כרטיס המוצר ומחזק את הצל במעבר עכבר. */
 .product-card:hover,
 .admin-product-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 12px 28px rgba(0, 0, 0, 0.13);
 }
 
+/* קובע גודל אחיד לתמונות המוצרים ושומר על כל התמונה בתוך המסגרת. */
 .product-card img,
 .admin-product-card img {
     width: 100%;
@@ -265,31 +297,37 @@ button:hover {
     background: #f9fafb;
 }
 
+/* מגדיר רווח תחתון לכותרות של כרטיסי המוצרים. */
 .product-card h3,
 .admin-product-card h3 {
     margin-bottom: 8px;
 }
 
+/* מעצב את טקסט התיאור והמידע בתוך כרטיסי המוצרים. */
 .product-card p,
 .admin-product-card p {
     color: #4b5563;
 }
 
+/* נותן לכפתורי עריכה צבע כתום שמבדיל אותם מפעולות אחרות. */
 .edit-button,
 button.edit-button {
     background: #f59e0b;
 }
 
+/* מכהה את כפתור העריכה במעבר עכבר. */
 .edit-button:hover,
 button.edit-button:hover {
     background: #d97706;
 }
 
+/* נותן לכפתורי מחיקה צבע אדום שמסמן פעולה מסוכנת. */
 .delete-button,
 button.delete-button {
     background: #ef4444;
 }
 
+/* מכהה את כפתור המחיקה במעבר עכבר. */
 .delete-button:hover,
 button.delete-button:hover {
     background: #dc2626;
@@ -299,6 +337,7 @@ button.delete-button:hover {
    Admin Products Fix
    ========================= */
 
+/* מציג את מוצרי המנהל ברשימה של כרטיס אחד בכל שורה. */
 #adminProductsContainer {
     display: grid;
     grid-template-columns: 1fr;
@@ -306,6 +345,7 @@ button.delete-button:hover {
     margin-top: 25px;
 }
 
+/* מעצב שורת מוצר מלאה באזור המנהל ומסדר את התוכן באמצעות Flexbox. */
 .admin-product-item {
     width: 100%;
     max-width: 1000px;
@@ -320,6 +360,7 @@ button.delete-button:hover {
     overflow: hidden;
 }
 
+/* מגביל את תמונת המוצר באזור המנהל לגודל קבוע. */
 .admin-product-item img {
     width: 140px !important;
     height: 100px !important;
@@ -331,21 +372,25 @@ button.delete-button:hover {
     flex-shrink: 0;
 }
 
+/* מאפשר לאזור הטקסט של מוצר המנהל לתפוס את המקום הפנוי. */
 .admin-product-item div {
     flex: 1;
 }
 
+/* מעצב את כותרת המוצר באזור המנהל. */
 .admin-product-item h3 {
     margin: 0 0 8px;
     font-size: 20px;
     color: #111827;
 }
 
+/* מגדיר רווח וצבע לפרטי המוצר באזור המנהל. */
 .admin-product-item p {
     margin: 5px 0;
     color: #4b5563;
 }
 
+/* מוסיף רווחים וגודל מתאים לכפתורי הפעולות של מוצר מנהל. */
 .admin-product-item button {
     margin-top: 10px;
     margin-right: 8px;
@@ -357,6 +402,7 @@ button.delete-button:hover {
    Cart
    ========================= */
 
+/* מעצב כל פריט בעגלת הקניות ככרטיס אופקי. */
 .cart-item {
     background: white;
     border-radius: 16px;
@@ -368,6 +414,7 @@ button.delete-button:hover {
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
 }
 
+/* קובע גודל אחיד לתמונת מוצר בעגלה. */
 .cart-item img {
     width: 110px;
     height: 90px;
@@ -376,6 +423,7 @@ button.delete-button:hover {
     border-radius: 12px;
 }
 
+/* מעצב את תיבת סיכום העגלה ברקע כהה וטקסט לבן. */
 .cart-summary {
     background: #111827;
     color: white;
@@ -384,11 +432,13 @@ button.delete-button:hover {
     margin-top: 25px;
 }
 
+/* מגדיל ומדגיש את סכום העגלה הכולל. */
 #cartTotalText {
     font-size: 22px;
     font-weight: bold;
 }
 
+/* מעצב הודעת עגלה צפה שמתחילה מוסתרת בצד העליון של המסך. */
 #cartMessage {
     position: fixed;
     top: 90px;
@@ -404,6 +454,7 @@ button.delete-button:hover {
     z-index: 1000;
 }
 
+/* מציג את הודעת העגלה כאשר JavaScript מוסיף לה את המחלקה show. */
 #cartMessage.show {
     opacity: 1;
 }
@@ -412,6 +463,7 @@ button.delete-button:hover {
    Admin Dashboard
    ========================= */
 
+/* מעצב את אזורי דף המנהל, הסטטיסטיקות, הגרפים וההזמנות ככרטיסים. */
 .admin-section,
 .stats-section,
 .charts-section,
@@ -423,6 +475,7 @@ button.delete-button:hover {
     box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
 }
 
+/* מעצב את טופס ניהול המוצרים ככרטיס נפרד. */
 .admin-form {
     background: white;
     padding: 24px;
@@ -431,11 +484,13 @@ button.delete-button:hover {
     margin-bottom: 30px;
 }
 
+/* מונע מגרפים לחרוג מרוחב המכל שלהם. */
 canvas {
     max-width: 100%;
     background: white;
 }
 
+/* מעצב כרטיס של הזמנה עם פס כחול בצד. */
 .order-item {
     background: #f9fafb;
     border-left: 5px solid #2563eb;
@@ -448,6 +503,7 @@ canvas {
    Footer
    ========================= */
 
+/* מעצב את החלק התחתון של האתר ברקע כהה וטקסט ממורכז. */
 .footer {
     background: #111827;
     color: white;
@@ -460,6 +516,7 @@ canvas {
    Mobile
    ========================= */
 
+/* התאמות למסכים ברוחב של עד 700 פיקסלים. */
 @media (max-width: 700px) {
     nav,
     .navbar {
@@ -496,6 +553,7 @@ canvas {
    Final Store Filters + Cart Message
    ========================= */
 
+/* מעצב את אזור החיפוש, המיון והסינון כ-Grid גמיש. */
 .filters-box {
     background: white;
     border-radius: 18px;
@@ -508,37 +566,44 @@ canvas {
     box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
 }
 
+/* מסדר כל שדה סינון בטור עם רווח בין התווית לשדה. */
 .filter-field {
     display: flex;
     flex-direction: column;
     gap: 8px;
 }
 
+/* מדגיש את התוויות של שדות הסינון. */
 .filter-field label {
     font-weight: bold;
     color: #111827;
 }
 
+/* מעצב את כפתור ניקוי הסינונים בגובה קבוע וברקע אפור כהה. */
 #clearFiltersButton {
     height: 44px;
     background: #374151;
 }
 
+/* מכהה את כפתור ניקוי הסינונים במעבר עכבר. */
 #clearFiltersButton:hover {
     background: #111827;
 }
 
+/* מאפשר ללחוץ על הודעת העגלה לאחר שהיא מוצגת. */
 #cartMessage.show {
     opacity: 1;
     pointer-events: auto;
 }
 
+/* מסדר את התוכן והכפתור שבתוך הודעת העגלה בטור. */
 .cart-message-content {
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
 
+/* מעצב את הכפתור שבתוך הודעת העגלה בצבעים הפוכים. */
 .cart-message-content button {
     background: white;
     color: #111827;
@@ -546,6 +611,7 @@ canvas {
     border-radius: 8px;
 }
 
+/* משנה את רקע כפתור הודעת העגלה במעבר עכבר. */
 .cart-message-content button:hover {
     background: #e5e7eb;
 }
@@ -554,6 +620,7 @@ canvas {
    Checkout Page
    ========================= */
 
+/* מחלק את דף התשלום לשתי עמודות: טופס וסיכום הזמנה. */
 .checkout-container {
     max-width: 1200px;
     margin: 35px auto;
@@ -563,6 +630,7 @@ canvas {
     gap: 28px;
 }
 
+/* מעצב כל אזור בדף התשלום ככרטיס לבן. */
 .checkout-card {
     background: white;
     border-radius: 18px;
@@ -570,10 +638,12 @@ canvas {
     box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
 }
 
+/* מסיר רווח עליון מיותר מכותרות כרטיסי התשלום. */
 .checkout-card h2 {
     margin-top: 0;
 }
 
+/* מסדר את אפשרויות התשלום בשורה גמישה. */
 .payment-methods {
     display: flex;
     gap: 20px;
@@ -581,6 +651,7 @@ canvas {
     flex-wrap: wrap;
 }
 
+/* מעצב כל אפשרות תשלום כתג או כפתור בחירה. */
 .payment-methods label {
     background: #f9fafb;
     padding: 12px 16px;
@@ -588,6 +659,7 @@ canvas {
     font-weight: bold;
 }
 
+/* מעצב את תיבת פרטי התשלום לדוגמה עם פס כחול. */
 .demo-payment-box {
     background: #f9fafb;
     border-left: 5px solid #2563eb;
@@ -596,10 +668,12 @@ canvas {
     margin: 18px 0;
 }
 
+/* מצמצם את הרווחים בין שורות ההסבר של תשלום הדמו. */
 .demo-payment-box p {
     margin: 6px 0;
 }
 
+/* מסדר כל מוצר בסיכום התשלום בין פרטים למחיר. */
 .checkout-item {
     display: flex;
     justify-content: space-between;
@@ -608,15 +682,18 @@ canvas {
     padding: 14px 0;
 }
 
+/* מסיר רווח עליון מכותרת מוצר בסיכום התשלום. */
 .checkout-item h3 {
     margin: 0 0 8px;
 }
 
+/* מעצב את פרטי המחיר והכמות של מוצר בתשלום. */
 .checkout-item p {
     margin: 5px 0;
     color: #4b5563;
 }
 
+/* מעצב את סיכום התשלום הסופי ברקע כהה. */
 .checkout-summary {
     background: #111827;
     color: white;
@@ -625,11 +702,13 @@ canvas {
     margin-top: 22px;
 }
 
+/* מבטיח שכותרות וטקסט בתוך סיכום התשלום יהיו לבנים. */
 .checkout-summary h3,
 .checkout-summary p {
     color: white;
 }
 
+/* מדגיש את הודעת ההצלחה או השגיאה של תהליך התשלום. */
 #checkoutMessage {
     font-weight: bold;
     margin-top: 16px;
@@ -639,6 +718,7 @@ canvas {
    Support Page + Support Tickets
    ========================= */
 
+/* מחלק את דף התמיכה לטופס ולכרטיס מידע בשתי עמודות. */
 .support-container {
     max-width: 1200px;
     margin: 35px auto;
@@ -648,6 +728,7 @@ canvas {
     gap: 28px;
 }
 
+/* מעצב את כרטיסי דף התמיכה. */
 .support-card {
     background: white;
     border-radius: 18px;
@@ -655,19 +736,23 @@ canvas {
     box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
 }
 
+/* מסיר רווח עליון מכותרות כרטיסי התמיכה. */
 .support-card h2 {
     margin-top: 0;
 }
 
+/* נותן לכרטיס המידע של התמיכה רקע אפור בהיר. */
 .support-info-card {
     background: #f9fafb;
 }
 
+/* מדגיש את הודעת שליחת פניית התמיכה. */
 #supportMessage {
     font-weight: bold;
     margin-top: 16px;
 }
 
+/* מעצב כל פניית תמיכה ככרטיס עם פס כחול. */
 .support-ticket-item {
     background: #f9fafb;
     border-left: 5px solid #2563eb;
@@ -676,10 +761,12 @@ canvas {
     margin-bottom: 15px;
 }
 
+/* מסיר רווח עליון מכותרת פניית התמיכה. */
 .support-ticket-item h3 {
     margin-top: 0;
 }
 
+/* במסכים עד 800 פיקסלים הופך את דפי התשלום והתמיכה לעמודה אחת. */
 @media (max-width: 800px) {
     .checkout-container,
     .support-container {
@@ -690,6 +777,7 @@ canvas {
    Home Page - Company Story
    ========================= */
 
+/* מעצב את אזור הפתיחה הראשי של דף הבית ברקע כהה מדורג. */
 .home-hero {
     max-width: 1200px;
     margin: 35px auto;
@@ -701,11 +789,13 @@ canvas {
     box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
 }
 
+/* מגביל וממרכז את התוכן שבתוך אזור הפתיחה. */
 .home-hero-content {
     max-width: 850px;
     margin: 0 auto;
 }
 
+/* מעצב תג קטן ועגול שמופיע מעל כותרת ה-Hero. */
 .hero-badge {
     display: inline-block;
     background: rgba(255, 255, 255, 0.12);
@@ -716,6 +806,7 @@ canvas {
     margin-bottom: 18px;
 }
 
+/* מגדיל את שם האתר בדף הבית וצובע אותו בלבן. */
 .home-hero h1 {
     color: white;
     font-size: 64px;
@@ -723,6 +814,7 @@ canvas {
     letter-spacing: 1px;
 }
 
+/* מעצב את טקסט המשנה הראשי ומגביל את רוחבו לקריאות טובה. */
 .hero-subtitle {
     color: #e5e7eb;
     font-size: 21px;
@@ -731,6 +823,7 @@ canvas {
     margin: 0 auto;
 }
 
+/* מסדר את כפתורי ה-Hero בשורה ממורכזת וגמישה. */
 .hero-buttons {
     display: flex;
     justify-content: center;
@@ -739,6 +832,7 @@ canvas {
     flex-wrap: wrap;
 }
 
+/* מעצב קישור ככפתור משני לבן. */
 .secondary-button {
     display: inline-block;
     margin-top: 25px;
@@ -751,16 +845,19 @@ canvas {
     transition: 0.2s;
 }
 
+/* משנה את רקע הכפתור המשני במעבר עכבר. */
 .secondary-button:hover {
     background: #e5e7eb;
 }
 
+/* ממרכז את כותרות הפתיחה של חלקי דף הבית. */
 .section-title {
     text-align: center;
     max-width: 800px;
     margin: 0 auto 28px;
 }
 
+/* מסיר את הפס הכללי ומגדיל כותרות בתוך section-title. */
 .section-title h2 {
     border-left: none;
     padding-left: 0;
@@ -768,12 +865,14 @@ canvas {
     font-size: 34px;
 }
 
+/* מעצב את פסקת ההסבר שמתחת לכותרת החלק. */
 .section-title p {
     color: #4b5563;
     font-size: 18px;
     line-height: 1.6;
 }
 
+/* מעצב את אזורי הסיפור, התהליך, היתרונות והקריאה לפעולה ככרטיסים גדולים. */
 .company-story-section,
 .process-section,
 .why-section,
@@ -786,6 +885,7 @@ canvas {
     box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
 }
 
+/* מחלק את סיפור החברה לאזור טקסט ולכרטיס נוסף. */
 .story-content {
     display: grid;
     grid-template-columns: 1.6fr 0.9fr;
@@ -793,6 +893,7 @@ canvas {
     align-items: stretch;
 }
 
+/* מעצב את אזור הטקסט של סיפור החברה עם פס כחול. */
 .story-text {
     background: #f9fafb;
     border-radius: 18px;
@@ -800,17 +901,20 @@ canvas {
     border-left: 5px solid #2563eb;
 }
 
+/* מגדיל את כותרת סיפור החברה ומסיר רווח עליון. */
 .story-text h3 {
     margin-top: 0;
     font-size: 26px;
 }
 
+/* משפר את קריאות פסקאות הסיפור באמצעות ריווח שורות. */
 .story-text p {
     color: #374151;
     line-height: 1.8;
     font-size: 16px;
 }
 
+/* מעצב כרטיס משלים כהה באזור סיפור החברה. */
 .story-card {
     background: #111827;
     color: white;
@@ -821,24 +925,28 @@ canvas {
     justify-content: center;
 }
 
+/* צובע ומגדיל את כותרת הכרטיס הכהה. */
 .story-card h3 {
     color: white;
     font-size: 26px;
     margin-top: 0;
 }
 
+/* מעצב את הטקסט בתוך הכרטיס הכהה. */
 .story-card p {
     color: #e5e7eb;
     line-height: 1.8;
     font-size: 16px;
 }
 
+/* מסדר את שלבי התהליך ב-Grid רספונסיבי. */
 .process-steps {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 22px;
 }
 
+/* מעצב כל שלב בתהליך ככרטיס ממורכז. */
 .process-step {
     background: #f9fafb;
     border-radius: 18px;
@@ -847,6 +955,7 @@ canvas {
     border: 1px solid #e5e7eb;
 }
 
+/* מעצב את מספר השלב כעיגול כחול. */
 .process-step span {
     width: 44px;
     height: 44px;
@@ -860,21 +969,25 @@ canvas {
     margin-bottom: 12px;
 }
 
+/* מגדיר רווחים לכותרת של כל שלב. */
 .process-step h3 {
     margin: 8px 0 10px;
 }
 
+/* מעצב את טקסט ההסבר של שלבי התהליך. */
 .process-step p {
     color: #4b5563;
     line-height: 1.6;
 }
 
+/* מסדר את יתרונות החברה ב-Grid רספונסיבי. */
 .why-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: 22px;
 }
 
+/* מעצב כל יתרון ככרטיס עם פס כחול בחלק העליון. */
 .why-item {
     background: #f9fafb;
     border-radius: 18px;
@@ -882,20 +995,24 @@ canvas {
     border-top: 5px solid #2563eb;
 }
 
+/* מסיר רווח עליון מכותרת היתרון. */
 .why-item h3 {
     margin-top: 0;
 }
 
+/* מעצב את תיאור היתרון. */
 .why-item p {
     color: #4b5563;
     line-height: 1.6;
 }
 
+/* מעצב את אזור הקריאה לפעולה ברקע בהיר מדורג ובמרכוז. */
 .cta-section {
     text-align: center;
     background: linear-gradient(135deg, #f9fafb, #e0ecff);
 }
 
+/* מסיר את פס ה-h2 הכללי ומגדיל את כותרת הקריאה לפעולה. */
 .cta-section h2 {
     border-left: none;
     padding-left: 0;
@@ -903,12 +1020,14 @@ canvas {
     font-size: 32px;
 }
 
+/* מעצב את טקסט ההסבר באזור הקריאה לפעולה. */
 .cta-section p {
     color: #374151;
     font-size: 18px;
     line-height: 1.6;
 }
 
+/* התאמות של דף הבית למסכים עד 800 פיקסלים. */
 @media (max-width: 800px) {
     .home-hero h1 {
         font-size: 44px;
@@ -926,6 +1045,7 @@ canvas {
    Cart Page Improvements
    ========================= */
 
+/* מעצב את הכרטיס הראשי של עמוד העגלה. */
 .cart-card {
     background: white;
     border-radius: 18px;
@@ -934,6 +1054,7 @@ canvas {
     box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
 }
 
+/* מסדר את כפתורי הפעולות של העגלה בשורה גמישה. */
 .cart-actions {
     display: flex;
     gap: 14px;
@@ -941,18 +1062,22 @@ canvas {
     margin-top: 18px;
 }
 
+/* צובע את הכפתור האחרון בפעולות העגלה באדום, בדרך כלל כפתור ניקוי. */
 .cart-actions button:last-child {
     background: #ef4444;
 }
 
+/* מכהה את הכפתור האדום במעבר עכבר. */
 .cart-actions button:last-child:hover {
     background: #dc2626;
 }
 
+/* מאפשר לפרטי פריט בעגלה לתפוס את כל השטח הפנוי. */
 .cart-item-details {
     flex: 1;
 }
 
+/* מסדר את כפתורי הכמות והמחיקה של פריט בעגלה. */
 .cart-item-actions {
     display: flex;
     gap: 10px;
@@ -960,10 +1085,12 @@ canvas {
     margin-top: 12px;
 }
 
+/* צובע את הכפתור השלישי של פריט העגלה באדום, בדרך כלל מחיקה. */
 .cart-item-actions button:nth-child(3) {
     background: #ef4444;
 }
 
+/* מכהה את כפתור מחיקת הפריט במעבר עכבר. */
 .cart-item-actions button:nth-child(3):hover {
     background: #dc2626;
 }
@@ -972,6 +1099,7 @@ canvas {
    ========================= */
 
 /* מסדר את אזור הסינון כמו חנות אמיתית */
+/* גרסה ממוקדת יותר של אזור הסינון בתוך דף החנות. */
 .store-container .filters-box {
     max-width: 1200px;
     margin: 0 auto 30px;
@@ -985,6 +1113,7 @@ canvas {
     box-shadow: 0 8px 22px rgba(0, 0, 0, 0.07);
 }
 
+/* מעצב את התוויות של שדות הסינון בחנות. */
 .store-container .filter-field label {
     font-size: 14px;
     font-weight: bold;
@@ -992,6 +1121,7 @@ canvas {
     margin-bottom: 6px;
 }
 
+/* מעצב את שדות החיפוש והבחירה בחנות כגלולות. */
 .store-container .filter-field input,
 .store-container .filter-field select {
     height: 44px;
@@ -1001,6 +1131,7 @@ canvas {
     padding: 0 16px;
 }
 
+/* מחיל עיצוב מעוגל וכהה נוסף על כפתור ניקוי הסינונים. */
 #clearFiltersButton {
     height: 44px;
     border-radius: 999px;
@@ -1009,6 +1140,7 @@ canvas {
 }
 
 /* גריד מוצרים נקי */
+/* מציג את מוצרי החנות ב-Grid עם מספר עמודות שמתאים את עצמו לרוחב. */
 .store-container #productsContainer,
 .store-container .products-grid {
     max-width: 1200px;
@@ -1019,6 +1151,7 @@ canvas {
 }
 
 /* כרטיס מוצר אחיד ונקי */
+/* מעצב כרטיס מוצר בחנות ככרטיס אנכי בגובה אחיד. */
 .store-container .product-card {
     position: relative;
     background: #ffffff;
@@ -1032,12 +1165,14 @@ canvas {
     transition: 0.25s;
 }
 
+/* מוסיף תנועת הרמה וצל חזק לכרטיס מוצר במעבר עכבר. */
 .store-container .product-card:hover {
     transform: translateY(-6px);
     box-shadow: 0 14px 30px rgba(0, 0, 0, 0.14);
 }
 
 /* אזור תמונה */
+/* מציג את תמונת המוצר בחלק העליון של הכרטיס עם חיתוך אחיד. */
 .store-container .product-card img {
     width: 100%;
     height: 190px;
@@ -1047,12 +1182,14 @@ canvas {
 }
 
 /* תוכן הכרטיס */
+/* מעצב את שם המוצר בתוך כרטיס החנות. */
 .store-container .product-card h3 {
     font-size: 19px;
     margin: 18px 18px 8px;
     color: #111827;
 }
 
+/* מעצב את פסקאות המידע בכרטיס החנות. */
 .store-container .product-card p {
     margin: 5px 18px;
     color: #4b5563;
@@ -1060,6 +1197,7 @@ canvas {
 }
 
 /* תיאור המוצר — מגביל שלא יהיה ארוך מדי */
+/* מגביל את גובה הפסקה הראשונה כדי שכל הכרטיסים יישארו אחידים. */
 .store-container .product-card p:first-of-type {
     min-height: 42px;
     max-height: 44px;
@@ -1067,6 +1205,7 @@ canvas {
 }
 
 /* קטגוריה */
+/* מעצב את שם הקטגוריה כתג מעוגל כחול. */
 .store-container .product-card .category {
     display: inline-block;
     width: fit-content;
@@ -1080,6 +1219,7 @@ canvas {
 }
 
 /* מחיר בדולר */
+/* מדגיש את מחיר המוצר בדולר. */
 .store-container .product-card .price {
     color: #111827;
     font-size: 20px;
@@ -1087,12 +1227,14 @@ canvas {
 }
 
 /* מחיר בשקלים */
+/* מעצב את המחיר המשני בשקלים בטקסט קטן ואפור. */
 .store-container .product-card .price-ils {
     font-size: 14px;
     color: #6b7280;
 }
 
 /* מלאי */
+/* מציג את מצב המלאי בצבע ירוק ובכתב מודגש. */
 .store-container .product-card .stock {
     font-size: 14px;
     color: #16a34a;
@@ -1100,6 +1242,7 @@ canvas {
 }
 
 /* כפתור הוספה לעגלה */
+/* מצמיד את כפתור ההוספה לעגלה לתחתית כרטיס המוצר. */
 .store-container .product-card button {
     margin: auto 18px 18px;
     height: 42px;
@@ -1108,17 +1251,20 @@ canvas {
     font-size: 15px;
 }
 
+/* מכהה את כפתור ההוספה לעגלה במעבר עכבר. */
 .store-container .product-card button:hover {
     background: #1d4ed8;
 }
 
 /* התאמה למסכים קטנים */
+/* במסכים עד 900 פיקסלים מציג את הסינונים בשתי עמודות. */
 @media (max-width: 900px) {
     .store-container .filters-box {
         grid-template-columns: 1fr 1fr;
     }
 }
 
+/* במסכים עד 600 פיקסלים מציג את הסינונים והמוצרים בעמודה אחת. */
 @media (max-width: 600px) {
     .store-container .filters-box {
         grid-template-columns: 1fr;
@@ -1133,12 +1279,14 @@ canvas {
    My Orders Page
    ========================= */
 
+/* מגדיר רוחב, מרכוז וריווח לעמוד ההזמנות של הלקוח. */
 .orders-page-container {
     max-width: 1100px;
     margin: 35px auto;
     padding: 25px;
 }
 
+/* מעצב את הכרטיס הראשי של עמוד ההזמנות. */
 .orders-page-card {
     background: white;
     border-radius: 18px;
@@ -1146,15 +1294,18 @@ canvas {
     box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
 }
 
+/* מסיר רווח עליון מכותרת כרטיס ההזמנות. */
 .orders-page-card h2 {
     margin-top: 0;
 }
 
+/* מעצב את טקסט הפתיחה של עמוד ההזמנות. */
 .orders-page-intro {
     color: #4b5563;
     margin-bottom: 24px;
 }
 
+/* מעצב כל הזמנה של לקוח ככרטיס נפרד. */
 .customer-order-card {
     background: #f9fafb;
     border-radius: 18px;
@@ -1164,6 +1315,7 @@ canvas {
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
 }
 
+/* מסדר את מספר ההזמנה, התאריך והסטטוס בכותרת הכרטיס. */
 .customer-order-header {
     display: flex;
     justify-content: space-between;
@@ -1174,16 +1326,19 @@ canvas {
     margin-bottom: 16px;
 }
 
+/* מסיר רווח עליון מכותרת הזמנת הלקוח. */
 .customer-order-header h3 {
     margin: 0 0 6px;
 }
 
+/* מעצב את תאריך ההזמנה בטקסט קטן ואפור. */
 .order-date {
     margin: 0;
     color: #6b7280;
     font-size: 14px;
 }
 
+/* מעצב את סטטוס ההזמנה כתג ירוק מעוגל. */
 .order-status {
     background: #dcfce7;
     color: #166534;
@@ -1194,11 +1349,13 @@ canvas {
     white-space: nowrap;
 }
 
+/* מגדיר צבע ורווחים לפסקאות שבכרטיס ההזמנה. */
 .customer-order-card p {
     color: #374151;
     margin: 8px 0;
 }
 
+/* מעצב חלק פנימי של פרטי הזמנה ככרטיס לבן קטן. */
 .customer-order-section {
     background: white;
     border-radius: 14px;
@@ -1207,11 +1364,13 @@ canvas {
     border: 1px solid #e5e7eb;
 }
 
+/* מעצב את הכותרת של כל חלק פנימי בהזמנה. */
 .customer-order-section h4 {
     margin: 0 0 10px;
     color: #111827;
 }
 
+/* במסכים עד 700 פיקסלים מסדר את כותרת ההזמנה בטור. */
 @media (max-width: 700px) {
     .customer-order-header {
         flex-direction: column;
@@ -1219,5 +1378,296 @@ canvas {
 
     .order-status {
         width: fit-content;
+    }
+}
+
+/* =========================
+   Smart Store Improvements
+   Product Badges + Details + Stock
+   ========================= */
+
+/* מעצב תג מידע שמופיע מעל תמונת המוצר. */
+.product-badge {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    z-index: 2;
+    padding: 7px 13px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: bold;
+    color: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+}
+
+/* צבע אדום לתג Best Seller. */
+.badge-best-seller {
+    background: #ef4444;
+}
+
+/* צבע כחול לתג מוצר חדש. */
+.badge-new {
+    background: #2563eb;
+}
+
+/* צבע כתום לתג שמתריע על מלאי נמוך. */
+.badge-low-stock {
+    background: #f59e0b;
+}
+
+/* צבע ירוק לתג מוצר מומלץ. */
+.badge-recommended {
+    background: #16a34a;
+}
+
+/* מסדר את כפתורי הפעולות של כרטיס המוצר בשורה. */
+.product-card-actions {
+    display: flex;
+    gap: 10px;
+    margin: auto 18px 18px;
+}
+
+/* מחלק את רוחב אזור הפעולות באופן שווה בין הכפתורים. */
+.product-card-actions button {
+    flex: 1;
+    margin: 0 !important;
+    height: 42px;
+    border-radius: 999px;
+    font-size: 14px;
+}
+
+/* מעצב את הכפתור הראשון, בדרך כלל הצגת פרטים, בצבע כהה. */
+.product-card-actions button:first-child {
+    background: #111827;
+}
+
+/* מבהיר מעט את הכפתור הראשון במעבר עכבר. */
+.product-card-actions button:first-child:hover {
+    background: #374151;
+}
+
+/* מעצב את הכפתור האחרון, בדרך כלל הוספה לעגלה, בכחול. */
+.product-card-actions button:last-child {
+    background: #2563eb;
+}
+
+/* מכהה את הכפתור האחרון במעבר עכבר. */
+.product-card-actions button:last-child:hover {
+    background: #1d4ed8;
+}
+
+/* מעצב כפתורים מושבתים באפור ומונע מראה של אפשרות לחיצה. */
+.disabled-cart-button,
+button.disabled-cart-button,
+button:disabled {
+    background: #9ca3af !important;
+    color: white !important;
+    cursor: not-allowed !important;
+    opacity: 0.75;
+}
+
+/* משאיר את צבע הכפתור המושבת ללא שינוי גם במעבר עכבר. */
+.disabled-cart-button:hover,
+button.disabled-cart-button:hover,
+button:disabled:hover {
+    background: #9ca3af !important;
+}
+
+/* יוצר שכבת Modal קבועה שמכסה את כל המסך ומתחילה מוסתרת. */
+.product-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(17, 24, 39, 0.72);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 25px;
+    z-index: 3000;
+}
+
+/* מציג את חלון המוצר כאשר מתווספת למחלקה product-modal המחלקה show. */
+.product-modal.show {
+    display: flex;
+}
+
+/* מעצב את התוכן הפנימי של חלון המוצר. */
+.product-modal-content {
+    position: relative;
+    width: 100%;
+    max-width: 900px;
+    background: white;
+    border-radius: 22px;
+    padding: 28px;
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.28);
+    animation: modalFadeIn 0.25s ease;
+}
+
+/* אנימציית כניסה שמעלה ומגדילה בעדינות את חלון המוצר. */
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(18px) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* מעצב את כפתור סגירת ה-Modal כעיגול בפינה העליונה. */
+.modal-close-button {
+    position: absolute;
+    top: 16px;
+    right: 18px;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: #111827;
+    color: white;
+    border: none;
+    font-size: 24px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+/* הופך את כפתור הסגירה לאדום במעבר עכבר. */
+.modal-close-button:hover {
+    background: #ef4444;
+}
+
+/* מחלק את חלון המוצר לתמונה ולפרטים בשתי עמודות. */
+.product-modal-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+    gap: 30px;
+    align-items: center;
+}
+
+/* קובע גודל ותצוגה אחידים לתמונת המוצר בתוך ה-Modal. */
+#modalProductImage {
+    width: 100%;
+    height: 360px;
+    object-fit: cover;
+    border-radius: 18px;
+    background: #f3f4f6;
+}
+
+/* מעצב את קטגוריית המוצר בתוך ה-Modal כתג כחול. */
+.modal-product-category {
+    display: inline-block;
+    background: #eef2ff;
+    color: #2563eb;
+    padding: 7px 14px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 12px;
+}
+
+/* מעצב את שם המוצר הגדול בתוך חלון הפרטים. */
+#modalProductName {
+    margin: 8px 0 14px;
+    font-size: 32px;
+    color: #111827;
+    border-left: none;
+    padding-left: 0;
+}
+
+/* משפר את קריאות תיאור המוצר בתוך החלון. */
+#modalProductDescription {
+    color: #4b5563;
+    line-height: 1.7;
+    font-size: 16px;
+    margin-bottom: 18px;
+}
+
+/* מדגיש את מחיר המוצר הראשי בתוך ה-Modal. */
+.modal-product-price {
+    font-size: 28px;
+    font-weight: bold;
+    color: #111827;
+    margin: 10px 0;
+}
+
+/* מעצב את המחיר המשני בשקלים בתוך חלון המוצר. */
+.modal-product-ils-price {
+    color: #6b7280;
+    font-size: 15px;
+    margin: 6px 0;
+}
+
+/* מציג את מצב המלאי בתוך ה-Modal בירוק. */
+.modal-product-stock {
+    color: #16a34a;
+    font-weight: bold;
+    margin: 10px 0 22px;
+}
+
+/* מעצב את כפתור ההוספה לעגלה בחלון המוצר כרוחב מלא. */
+#modalAddToCartButton {
+    width: 100%;
+    padding: 14px;
+    border-radius: 999px;
+    background: #2563eb;
+    font-size: 16px;
+}
+
+/* מכהה את כפתור ההוספה לעגלה במעבר עכבר. */
+#modalAddToCartButton:hover {
+    background: #1d4ed8;
+}
+
+/* מעצב הודעות שמוצגות כאשר העגלה או החנות ריקות. */
+.empty-cart-box,
+.empty-store-message {
+    background: white;
+    border-radius: 18px;
+    padding: 28px;
+    text-align: center;
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
+}
+
+/* התאמות חלון המוצר למסכים עד 800 פיקסלים. */
+@media (max-width: 800px) {
+    .product-modal-content {
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+
+    .product-modal-grid {
+        grid-template-columns: 1fr;
+    }
+
+    #modalProductImage {
+        height: 260px;
+    }
+
+    #modalProductName {
+        font-size: 26px;
+    }
+}
+/* =========================
+   Coupon Box
+   ========================= */
+
+/* מסדר את שדה הקופון והכפתור בשתי עמודות. */
+.coupon-box {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 12px;
+    align-items: center;
+}
+
+/* מדגיש את הודעת התקינות או השגיאה של הקופון. */
+#couponMessage {
+    font-weight: bold;
+    margin-top: 8px;
+}
+
+/* במסכים עד 600 פיקסלים מציג את שדה הקופון והכפתור בטור. */
+@media (max-width: 600px) {
+    .coupon-box {
+        grid-template-columns: 1fr;
     }
 }

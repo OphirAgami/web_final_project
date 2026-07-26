@@ -6,8 +6,7 @@ Content-Type: application/json
   "password": "mysecretpassword",
   "firstName": "Ophir",
   "lastName": "Rephael Agamim",
-  "role": "admin"
-}
+  "role": "customer"}
 
 
 ### בדיקת התחברות
