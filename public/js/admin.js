@@ -203,8 +203,14 @@ async function loadProducts() {
 
             // בונה את תוכן הכרטיס ומוסיפה כפתורי Edit ו-Delete.
             productDiv.innerHTML = `
-                <h3>${escapeHtml(product.name)}</h3>
-                <p><strong>Category:</strong> ${escapeHtml(product.category)}</p>
+    <img 
+        class="admin-product-image"
+        src="${escapeHtml(product.image || product.imageUrl || "")}" 
+        alt="${escapeHtml(product.name)}"
+    >
+
+    <h3>${escapeHtml(product.name)}</h3>
+    <p><strong>Category:</strong> ${escapeHtml(product.category)}</p>
                 <p><strong>Price:</strong> ${formatPrice(product.price)}</p>
                 <p><strong>Stock:</strong> ${product.stock}</p>
                 <p><strong>Description:</strong> ${escapeHtml(product.description)}</p>

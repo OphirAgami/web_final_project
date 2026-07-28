@@ -1,17 +1,20 @@
-// הודעה לבדיקה שהקובץ נטען בדפדפן
 console.log("Store page JavaScript is connected");
 
-// תפיסת אלמנטים מה-HTML כדי לעבוד איתם ב-JavaScript
+// =========================
+// Elements
+// =========================
+
 const productsContainer = document.getElementById("productsContainer");
 const currencyRateText = document.getElementById("currencyRateText");
 const weatherSuggestionText = document.getElementById("weatherSuggestionText");
 const cartMessage = document.getElementById("cartMessage");
+
 const sortSelect = document.getElementById("sortSelect");
 const searchInput = document.getElementById("searchInput");
 const categorySelect = document.getElementById("categorySelect");
 const clearFiltersButton = document.getElementById("clearFiltersButton");
 
-// תפיסת אלמנטים של חלון פרטי המוצר
+// Product Details Modal elements
 const productDetailsModal = document.getElementById("productDetailsModal");
 const closeProductModalButton = document.getElementById("closeProductModalButton");
 const modalProductImage = document.getElementById("modalProductImage");
@@ -22,15 +25,22 @@ const modalProductPrice = document.getElementById("modalProductPrice");
 const modalProductIlsPrice = document.getElementById("modalProductIlsPrice");
 const modalProductStock = document.getElementById("modalProductStock");
 const modalAddToCartButton = document.getElementById("modalAddToCartButton");
+const modalSupplierOffers = document.getElementById("modalSupplierOffers");
 
-// משתנים לשמירת שער הדולר, רשימת המוצרים וטיימרים
-let usdToIlsRate = null;
+// =========================
+// Global Variables
+// =========================
+
+let usdToIlsRate = 3.7;
 let productsList = [];
 let searchTimeout = null;
-let cartRedirectTimeout = null;
+let cartMessageTimeout = null;
 let selectedModalProductId = null;
 
-// פונקציה שמונעת הכנסת HTML לא רצוי לתוך הדף
+// =========================
+// Helper Functions
+// =========================
+
 function escapeHtml(value) {
     return String(value || "")
         .replaceAll("&", "&amp;")
@@ -40,31 +50,98 @@ function escapeHtml(value) {
         .replaceAll("'", "&#039;");
 }
 
-// יצירת תמונת ברירת מחדל פנימית אם תמונה חיצונית לא נטענת
-function getFallbackImage(productName) {
-    const safeProductName = escapeHtml(productName || "DriveX Product");
-
-    const svgImage = `
-        <svg xmlns="http://www.w3.org/2000/svg" width="600" height="400">
-            <rect width="100%" height="100%" fill="#f3f4f6"/>
-            <rect x="35" y="35" width="530" height="330" rx="24" fill="#ffffff" stroke="#d1d5db" stroke-width="4"/>
-            <text x="50%" y="44%" font-family="Arial" font-size="44" fill="#111827" font-weight="700" text-anchor="middle">DriveX</text>
-            <text x="50%" y="58%" font-family="Arial" font-size="26" fill="#4b5563" text-anchor="middle">${safeProductName}</text>
-        </svg>
-    `;
-
-    return "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(svgImage);
+function formatStorePrice(price) {
+    return "$" + (Number(price) || 0).toFixed(2);
 }
 
-// החזרת תגית שיווקית למוצר, כמו בחנות אמיתית
-function getProductBadge(product) {
-    if (product.stock <= 0) {
-        return {
-            text: "Out of Stock",
-            className: "badge-low-stock",
-        };
+function getIlsPrice(price) {
+    const ilsPrice = (Number(price) || 0) * usdToIlsRate;
+    return "Estimated: ₪" + ilsPrice.toFixed(2);
+}
+
+function getFallbackImage(productName) {
+    const name = String(productName || "").toLowerCase();
+
+    if (name.includes("phone")) {
+        return "/images/products/phone-holder.jpg";
     }
 
+    if (name.includes("seat")) {
+        return "/images/products/seat-covers.jpg";
+    }
+
+    if (name.includes("organizer")) {
+        return "/images/products/organizer-box.jpg";
+    }
+
+    if (name.includes("led") || name.includes("headlight")) {
+        return "/images/products/led-headlight.jpg";
+    }
+
+    if (name.includes("ambient")) {
+        return "/images/products/ambient-lights.jpg";
+    }
+
+    if (name.includes("fog")) {
+        return "/images/products/fog-lights.jpg";
+    }
+
+    if (name.includes("cleaning")) {
+        return "/images/products/cleaning-kit.jpg";
+    }
+
+    if (name.includes("microfiber")) {
+        return "/images/products/microfiber-towels.jpg";
+    }
+
+    if (name.includes("anti fog")) {
+        return "/images/products/anti-fog-spray.jpg";
+    }
+
+    if (name.includes("safety")) {
+        return "/images/products/safety-kit.jpg";
+    }
+
+    if (name.includes("tire")) {
+        return "/images/products/tire-gauge.jpg";
+    }
+
+    if (name.includes("dash")) {
+        return "/images/products/dash-camera.jpg";
+    }
+
+    if (name.includes("usb")) {
+        return "/images/products/usb-charger.jpg";
+    }
+
+    if (name.includes("bluetooth")) {
+        return "/images/products/bluetooth-transmitter.jpg";
+    }
+
+    if (name.includes("cover") && !name.includes("steering")) {
+        return "/images/products/car-cover.jpg";
+    }
+
+    if (name.includes("sunshade") || name.includes("sun shade")) {
+        return "/images/products/sunshade.jpg";
+    }
+
+    if (name.includes("steering")) {
+        return "/images/products/steering-cover.jpg";
+    }
+
+    if (name.includes("neck") || name.includes("pillow")) {
+        return "/images/products/neck-pillow.jpg";
+    }
+
+    return "/images/products/phone-holder.jpg";
+}
+
+// =========================
+// Product Badges
+// =========================
+
+function getProductBadge(product) {
     if (product.stock <= 10) {
         return {
             text: "Low Stock",
@@ -96,7 +173,6 @@ function getProductBadge(product) {
     return null;
 }
 
-// יצירת HTML של תגית המוצר
 function getProductBadgeHtml(product) {
     const badge = getProductBadge(product);
 
@@ -104,87 +180,163 @@ function getProductBadgeHtml(product) {
         return "";
     }
 
-    return `<span class="product-badge ${badge.className}">${badge.text}</span>`;
+    return `<span class="product-badge ${badge.className}">${escapeHtml(badge.text)}</span>`;
 }
 
-// יצירת כפתורי פעולה למוצר לפי מצב המלאי
+// =========================
+// Product Card Actions
+// =========================
+
 function getProductActionsHtml(product) {
     if (product.stock <= 0) {
         return `
             <div class="product-card-actions">
-                <button type="button" onclick="openProductDetailsModal('${product._id}')">View Details</button>
-                <button type="button" class="disabled-cart-button" disabled>Out of Stock</button>
+                <button type="button" onclick="openProductDetailsModal('${product._id}')">
+                    View Details
+                </button>
+                <button type="button" class="disabled-cart-button" disabled>
+                    Out of Stock
+                </button>
             </div>
         `;
     }
 
     return `
         <div class="product-card-actions">
-            <button type="button" onclick="openProductDetailsModal('${product._id}')">View Details</button>
-            <button type="button" onclick="addToCart('${product._id}')">Add to Cart</button>
+            <button type="button" onclick="openProductDetailsModal('${product._id}')">
+                View Details
+            </button>
+            <button type="button" onclick="addToCart('${product._id}')">
+                Add to Cart
+            </button>
         </div>
     `;
 }
 
-// בניית כתובת השליפה לפי מיון, קטגוריה וחיפוש
+// =========================
+// API / External APIs
+// =========================
+
 function buildProductsUrl() {
-    const params = new URLSearchParams();
+    const url = new URL("/api/products", window.location.origin);
 
-    if (sortSelect && sortSelect.value !== "") {
-        params.append("sort", sortSelect.value);
+    if (sortSelect && sortSelect.value) {
+        url.searchParams.set("sort", sortSelect.value);
     }
 
-    if (categorySelect && categorySelect.value !== "all") {
-        params.append("category", categorySelect.value);
+    if (categorySelect && categorySelect.value) {
+        url.searchParams.set("category", categorySelect.value);
     }
 
-    if (searchInput && searchInput.value.trim() !== "") {
-        params.append("search", searchInput.value.trim());
+    if (searchInput && searchInput.value.trim()) {
+        url.searchParams.set("search", searchInput.value.trim());
     }
 
-    const queryString = params.toString();
-
-    if (queryString === "") {
-        return "/api/products";
-    }
-
-    return "/api/products?" + queryString;
+    return url.pathname + url.search;
 }
 
-// טעינת המוצרים מהשרת והצגתם בעמוד
-async function loadProducts() {
-    try {
-        const productsUrl = buildProductsUrl();
+async function loadCurrencyRate() {
+    if (currencyRateText) {
+        currencyRateText.textContent = "Loading currency rate...";
+    }
 
-        const response = await fetch(productsUrl);
+    try {
+        const response = await fetch("https://api.frankfurter.dev/v1/latest?base=USD&symbols=ILS");
+        const data = await response.json();
+
+        if (data && data.rates && data.rates.ILS) {
+            usdToIlsRate = data.rates.ILS;
+        }
+
+        if (currencyRateText) {
+            currencyRateText.textContent =
+                "Currency rate: 1 USD ≈ ₪" + usdToIlsRate.toFixed(2);
+        }
+    } catch (error) {
+        if (currencyRateText) {
+            currencyRateText.textContent =
+                "Currency rate is currently unavailable. Showing estimated ILS prices.";
+        }
+    }
+}
+
+function getWeatherRecommendation(temperature) {
+    if (temperature >= 28) {
+        return "Hot weather today. Sunshades and car covers are recommended.";
+    }
+
+    if (temperature <= 15) {
+        return "Cool weather today. Cleaning and safety products are recommended.";
+    }
+
+    return "Good driving weather today. Check out our comfort and electronics accessories.";
+}
+
+async function loadWeatherRecommendation() {
+    if (weatherSuggestionText) {
+        weatherSuggestionText.textContent = "Loading weather recommendation...";
+    }
+
+    try {
+        const response = await fetch(
+            "https://api.open-meteo.com/v1/forecast?latitude=32.08&longitude=34.78&current_weather=true"
+        );
+
+        const data = await response.json();
+        const temperature = data.current_weather.temperature;
+
+        if (weatherSuggestionText) {
+            weatherSuggestionText.textContent =
+                getWeatherRecommendation(temperature) + " Current temperature: " + temperature + "°C.";
+        }
+    } catch (error) {
+        if (weatherSuggestionText) {
+            weatherSuggestionText.textContent =
+                "Weather recommendation is currently unavailable.";
+        }
+    }
+}
+
+// =========================
+// Render Products
+// =========================
+
+async function loadProducts() {
+    if (!productsContainer) {
+        return;
+    }
+
+    productsContainer.innerHTML = "<p>Loading products...</p>";
+
+    try {
+        const response = await fetch(buildProductsUrl());
         const products = await response.json();
 
-        productsList = products;
+        productsList = Array.isArray(products) ? products : [];
         productsContainer.innerHTML = "";
 
-        if (products.length === 0) {
+        if (productsList.length === 0) {
             productsContainer.innerHTML = `
-                <div class="empty-store-message">
-                    <h3>No products found</h3>
-                    <p>Try another search term or choose a different category.</p>
+                <div class="empty-state">
+                    <h2>No products found</h2>
+                    <p>Try changing your search or filters.</p>
                 </div>
             `;
             return;
         }
 
-        // יצירת כרטיס מוצר לכל מוצר שהתקבל מהשרת
-        products.forEach(function (product) {
-            const fallbackImage = getFallbackImage(product.name);
-            const productImage = product.image || product.imageUrl || fallbackImage;
-
+        productsList.forEach(function (product) {
             const productCard = document.createElement("div");
             productCard.className = "product-card";
+
+            const fallbackImage = getFallbackImage(product.name);
+            const productImage = product.image || product.imageUrl || fallbackImage;
 
             productCard.innerHTML = `
                 ${getProductBadgeHtml(product)}
 
-                <img
-                    src="${escapeHtml(productImage)}"
+                <img 
+                    src="${escapeHtml(productImage)}" 
                     alt="${escapeHtml(product.name)}"
                     onerror="this.onerror=null; this.src='${fallbackImage}';"
                 >
@@ -192,8 +344,10 @@ async function loadProducts() {
                 <h3>${escapeHtml(product.name)}</h3>
                 <p>${escapeHtml(product.description)}</p>
                 <p class="category">${escapeHtml(product.category)}</p>
-                <p class="price">$${product.price}</p>
+
+                <p class="price">${formatStorePrice(product.price)}</p>
                 <p class="price-ils">${getIlsPrice(product.price)}</p>
+
                 <p class="stock">In stock: ${product.stock}</p>
 
                 ${getProductActionsHtml(product)}
@@ -202,70 +356,19 @@ async function loadProducts() {
             productsContainer.appendChild(productCard);
         });
     } catch (error) {
-        productsContainer.innerHTML = "<p>Error loading products.</p>";
+        productsContainer.innerHTML = `
+            <div class="empty-state">
+                <h2>Error loading products</h2>
+                <p>Please try again later.</p>
+            </div>
+        `;
     }
 }
 
-// טעינת שער המרה מדולר לשקל מ-API חיצוני
-async function loadCurrencyRate() {
-    try {
-        const response = await fetch("https://api.frankfurter.dev/v1/latest?base=USD&symbols=ILS");
-        const data = await response.json();
+// =========================
+// Product Details Modal
+// =========================
 
-        usdToIlsRate = data.rates.ILS;
-
-        currencyRateText.textContent =
-            "Live exchange rate: 1 USD = " + usdToIlsRate.toFixed(2) + " ILS";
-    } catch (error) {
-        currencyRateText.textContent = "Live currency rate is currently unavailable.";
-    }
-}
-
-// חישוב מחיר משוער בשקלים לפי שער הדולר
-function getIlsPrice(priceInUsd) {
-    if (!usdToIlsRate) {
-        return "ILS price unavailable";
-    }
-
-    const priceInIls = priceInUsd * usdToIlsRate;
-
-    return "Approximately " + priceInIls.toFixed(2) + " ILS";
-}
-
-// טעינת המלצה לפי מזג האוויר מ-API חיצוני
-async function loadWeatherRecommendation() {
-    try {
-        const response = await fetch("https://api.open-meteo.com/v1/forecast?latitude=32.0853&longitude=34.7818&current=temperature_2m,rain,wind_speed_10m&timezone=auto");
-        const data = await response.json();
-
-        const temperature = data.current.temperature_2m;
-        const rain = data.current.rain;
-        const windSpeed = data.current.wind_speed_10m;
-
-        weatherSuggestionText.textContent = getWeatherRecommendation(temperature, rain, windSpeed);
-    } catch (error) {
-        weatherSuggestionText.textContent = "Weather recommendation is currently unavailable.";
-    }
-}
-
-// בחירת המלצת מוצר לפי גשם, חום או רוח
-function getWeatherRecommendation(temperature, rain, windSpeed) {
-    if (rain > 0) {
-        return "Current weather: rain detected. Recommended product: windshield wipers or anti-fog spray.";
-    }
-
-    if (temperature >= 30) {
-        return "Current weather: " + temperature + "°C. Recommended product: car sunshade.";
-    }
-
-    if (windSpeed >= 25) {
-        return "Current weather: strong wind. Recommended product: car cover or exterior protection.";
-    }
-
-    return "Current weather: " + temperature + "°C. Recommended product: interior car accessories.";
-}
-
-// פתיחת חלון פרטי מוצר
 function openProductDetailsModal(productId) {
     const product = productsList.find(function (item) {
         return item._id === productId;
@@ -291,9 +394,15 @@ function openProductDetailsModal(productId) {
     modalProductCategory.textContent = product.category;
     modalProductName.textContent = product.name;
     modalProductDescription.textContent = product.description;
-    modalProductPrice.textContent = "$" + product.price;
+    modalProductPrice.textContent = formatStorePrice(product.price);
     modalProductIlsPrice.textContent = getIlsPrice(product.price);
     modalProductStock.textContent = "In stock: " + product.stock;
+
+    if (modalSupplierOffers) {
+        modalSupplierOffers.innerHTML = "";
+    }
+
+    modalAddToCartButton.style.display = "block";
 
     if (product.stock <= 0) {
         modalAddToCartButton.disabled = true;
@@ -308,13 +417,51 @@ function openProductDetailsModal(productId) {
     productDetailsModal.classList.add("show");
 }
 
-// סגירת חלון פרטי מוצר
 function closeProductDetailsModal() {
     productDetailsModal.classList.remove("show");
     selectedModalProductId = null;
+
+    if (modalSupplierOffers) {
+        modalSupplierOffers.innerHTML = "";
+    }
 }
 
-// הוספת מוצר לעגלת הקניות
+// =========================
+// Cart
+// =========================
+
+function showCartMessage(message, isSuccess) {
+    if (!cartMessage) {
+        return;
+    }
+
+    cartMessage.classList.remove("cart-message-success", "cart-message-error");
+
+    if (isSuccess) {
+        cartMessage.classList.add("cart-message-success");
+
+        cartMessage.innerHTML = `
+            <span>${escapeHtml(message)}</span>
+            <a href="cart.html" class="go-to-cart-button">Go to Cart</a>
+        `;
+    } else {
+        cartMessage.classList.add("cart-message-error");
+
+        cartMessage.innerHTML = `
+            <span>${escapeHtml(message)}</span>
+        `;
+    }
+
+    if (cartMessageTimeout) {
+        clearTimeout(cartMessageTimeout);
+    }
+
+    cartMessageTimeout = setTimeout(function () {
+        cartMessage.innerHTML = "";
+        cartMessage.classList.remove("cart-message-success", "cart-message-error");
+    }, 5000);
+}
+
 function addToCart(productId) {
     const product = productsList.find(function (item) {
         return item._id === productId;
@@ -349,6 +496,7 @@ function addToCart(productId) {
     } else {
         cart.push({
             _id: product._id,
+            productId: product._id,
             name: product.name,
             price: product.price,
             image: product.image || product.imageUrl || getFallbackImage(product.name),
@@ -366,77 +514,14 @@ function addToCart(productId) {
     showCartMessage(product.name + " added to cart.", true);
 }
 
-// הצגת הודעה אחרי הוספה לעגלה, עם כפתור מעבר לעגלה ומעבר אוטומטי
-function showCartMessage(message, shouldRedirectToCart) {
-    clearTimeout(cartRedirectTimeout);
+// =========================
+// Event Listeners
+// =========================
 
-    cartMessage.classList.add("show");
-
-    if (!shouldRedirectToCart) {
-        cartMessage.innerHTML = `<span>${escapeHtml(message)}</span>`;
-
-        setTimeout(function () {
-            cartMessage.classList.remove("show");
-        }, 2500);
-
-        return;
-    }
-
-    cartMessage.innerHTML = `
-        <div class="cart-message-content">
-            <strong>${escapeHtml(message)}</strong>
-            <span>Moving to cart in 5 seconds...</span>
-            <button type="button" id="goToCartButton">Go to Cart Now</button>
-        </div>
-    `;
-
-    const goToCartButton = document.getElementById("goToCartButton");
-
-    if (goToCartButton) {
-        goToCartButton.addEventListener("click", function () {
-            window.location.href = "cart.html";
-        });
-    }
-
-    cartRedirectTimeout = setTimeout(function () {
-        window.location.href = "cart.html";
-    }, 5000);
-}
-
-// הפעלת כל הטעינות של עמוד החנות
-async function startStorePage() {
-    await loadCurrencyRate();
-    await loadWeatherRecommendation();
-    await loadProducts();
-}
-
-// עדכון המוצרים מחדש כשמשנים את המיון
-if (sortSelect) {
-    sortSelect.addEventListener("change", loadProducts);
-}
-
-// עדכון המוצרים מחדש כשמשנים קטגוריה
-if (categorySelect) {
-    categorySelect.addEventListener("change", loadProducts);
-}
-
-// חיפוש מוצר תוך כדי הקלדה, עם השהייה קטנה כדי לא לשלוח יותר מדי בקשות
-if (searchInput) {
-    searchInput.addEventListener("input", function () {
-        clearTimeout(searchTimeout);
-
-        searchTimeout = setTimeout(function () {
-            loadProducts();
-        }, 400);
-    });
-}
-
-// סגירת חלון פרטי מוצר בלחיצה על X
 if (closeProductModalButton) {
     closeProductModalButton.addEventListener("click", closeProductDetailsModal);
 }
 
-// סגירת חלון פרטי מוצר בלחיצה על הרקע הכהה
 if (productDetailsModal) {
     productDetailsModal.addEventListener("click", function (event) {
         if (event.target === productDetailsModal) {
@@ -445,7 +530,6 @@ if (productDetailsModal) {
     });
 }
 
-// הוספה לעגלה מתוך חלון פרטי מוצר
 if (modalAddToCartButton) {
     modalAddToCartButton.addEventListener("click", function () {
         if (!selectedModalProductId) {
@@ -457,15 +541,52 @@ if (modalAddToCartButton) {
     });
 }
 
-// ניקוי כל הסינונים
+if (sortSelect) {
+    sortSelect.addEventListener("change", loadProducts);
+}
+
+if (categorySelect) {
+    categorySelect.addEventListener("change", loadProducts);
+}
+
+if (searchInput) {
+    searchInput.addEventListener("input", function () {
+        if (searchTimeout) {
+            clearTimeout(searchTimeout);
+        }
+
+        searchTimeout = setTimeout(function () {
+            loadProducts();
+        }, 400);
+    });
+}
+
 if (clearFiltersButton) {
     clearFiltersButton.addEventListener("click", function () {
-        searchInput.value = "";
-        categorySelect.value = "all";
-        sortSelect.value = "";
+        if (sortSelect) {
+            sortSelect.value = "";
+        }
+
+        if (categorySelect) {
+            categorySelect.value = "";
+        }
+
+        if (searchInput) {
+            searchInput.value = "";
+        }
 
         loadProducts();
     });
+}
+
+// =========================
+// Start Page
+// =========================
+
+async function startStorePage() {
+    await loadCurrencyRate();
+    await loadWeatherRecommendation();
+    await loadProducts();
 }
 
 // חשיפת פונקציות לכפתורים שנוצרים דינמית בתוך productCard.innerHTML
