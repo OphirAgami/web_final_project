@@ -16,11 +16,28 @@ function getCurrentUser() {
 }
 
 // הצגת הודעת הצלחה או שגיאה
+let supportMessageTimeout;
+
 function showSupportMessage(message, isSuccess) {
     supportMessage.textContent = message;
-    supportMessage.style.color = isSuccess ? "green" : "red";
-}
 
+    supportMessage.classList.remove("support-message-success", "support-message-error");
+
+    if (isSuccess) {
+        supportMessage.classList.add("support-message-success");
+    } else {
+        supportMessage.classList.add("support-message-error");
+    }
+
+    if (supportMessageTimeout) {
+        clearTimeout(supportMessageTimeout);
+    }
+
+    supportMessageTimeout = setTimeout(function () {
+        supportMessage.textContent = "";
+        supportMessage.classList.remove("support-message-success", "support-message-error");
+    }, 3500);
+}
 // שליחת פנייה לשירות לקוחות לשרת
 supportForm.addEventListener("submit", async function (event) {
     event.preventDefault();

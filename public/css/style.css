@@ -340,7 +340,7 @@ button.delete-button:hover {
 /* מציג את מוצרי המנהל ברשימה של כרטיס אחד בכל שורה. */
 #adminProductsContainer {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(auto-fit,minmax(240px,1fr));
     gap: 18px;
     margin-top: 25px;
 }
@@ -427,9 +427,15 @@ button.delete-button:hover {
 .cart-summary {
     background: #111827;
     color: white;
-    border-radius: 16px;
-    padding: 22px;
+    border-radius: 20px;
+    padding: 26px;
     margin-top: 25px;
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.18);
+}
+
+.cart-summary h2 {
+    color: white;
+    margin-top: 0;
 }
 
 /* מגדיל ומדגיש את סכום העגלה הכולל. */
@@ -483,11 +489,54 @@ button.delete-button:hover {
     box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
     margin-bottom: 30px;
 }
+.product-form-card form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+.product-form-card input,
+.product-form-card textarea {
+    width: 100%;
+    min-height: 46px;
+    padding: 12px 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 12px;
+    font-size: 14px;
+    background: #ffffff;
+}
+
+#productDescription {
+    grid-column: 1 / -1;
+    min-height: 95px;
+    resize: vertical;
+}
+
+#saveProductButton,
+#cancelEditButton {
+    grid-column: 1 / -1;
+    min-height: 46px;
+    border-radius: 12px;
+    font-weight: bold;
+}
 
 /* מונע מגרפים לחרוג מרוחב המכל שלהם. */
 canvas {
     max-width: 100%;
     background: white;
+}
+.chart-box {
+    height: 320px;
+    margin: 18px 0 32px;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    padding: 16px;
+}
+
+.chart-box canvas {
+    width: 100% !important;
+    height: 100% !important;
 }
 
 /* מעצב כרטיס של הזמנה עם פס כחול בצד. */
@@ -658,6 +707,18 @@ canvas {
     border-radius: 12px;
     font-weight: bold;
 }
+/* מסדר את שדות כרטיס האשראי בשתי עמודות. */
+#creditCardFields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+/* במסכים קטנים שדות כרטיס האשראי חוזרים לעמודה אחת. */
+@media (max-width: 600px) {
+    #creditCardFields {
+        grid-template-columns: 1fr;
+    }
+}
 
 /* מעצב את תיבת פרטי התשלום לדוגמה עם פס כחול. */
 .demo-payment-box {
@@ -726,6 +787,7 @@ canvas {
     display: grid;
     grid-template-columns: 1.2fr 0.8fr;
     gap: 28px;
+    align-items: start;
 }
 
 /* מעצב את כרטיסי דף התמיכה. */
@@ -736,6 +798,28 @@ canvas {
     box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
 }
 
+.support-card form input,
+.support-card form select,
+.support-card form textarea {
+    min-height: 46px;
+    padding: 12px 14px;
+    border-radius: 12px;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    background: #ffffff;
+}
+
+.support-card form textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.support-card form button {
+    min-height: 46px;
+    border-radius: 12px;
+    font-weight: bold;
+}
+
 /* מסיר רווח עליון מכותרות כרטיסי התמיכה. */
 .support-card h2 {
     margin-top: 0;
@@ -744,12 +828,43 @@ canvas {
 /* נותן לכרטיס המידע של התמיכה רקע אפור בהיר. */
 .support-info-card {
     background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-left: 6px solid #2563eb;
+    align-self: start;
+}
+.support-info-card p {
+    color: #374151;
+    line-height: 1.6;
+    margin: 10px 0;
+}
+
+.support-info-card strong {
+    color: #111827;
 }
 
 /* מדגיש את הודעת שליחת פניית התמיכה. */
 #supportMessage {
     font-weight: bold;
     margin-top: 16px;
+}
+
+#supportMessage.support-message-success,
+#supportMessage.support-message-error {
+    padding: 12px 14px;
+    border-radius: 12px;
+    line-height: 1.5;
+}
+
+#supportMessage.support-message-success {
+    background: #ecfdf5;
+    color: #166534;
+    border: 1px solid #bbf7d0;
+}
+
+#supportMessage.support-message-error {
+    background: #fef2f2;
+    color: #991b1b;
+    border: 1px solid #fecaca;
 }
 
 /* מעצב כל פניית תמיכה ככרטיס עם פס כחול. */
@@ -832,6 +947,32 @@ canvas {
     flex-wrap: wrap;
 }
 
+/* מעצב את כפתור הפעולה הראשי בדף הבית ובקריאה לפעולה. */
+.main-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 150px;
+    padding: 13px 24px;
+    background: #2563eb;
+    color: white;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+.main-button:hover {
+    background: #1d4ed8;
+    color: white;
+}
+
+/* מוודא ששני הכפתורים באזור הפתיחה יושבים באותה שורה ובאותו גובה. */
+.hero-buttons .main-button,
+.hero-buttons .secondary-button {
+    margin-top: 0;
+}
+
 /* מעצב קישור ככפתור משני לבן. */
 .secondary-button {
     display: inline-block;
@@ -874,6 +1015,7 @@ canvas {
 
 /* מעצב את אזורי הסיפור, התהליך, היתרונות והקריאה לפעולה ככרטיסים גדולים. */
 .company-story-section,
+.home-section,
 .process-section,
 .why-section,
 .cta-section {
@@ -890,8 +1032,7 @@ canvas {
     display: grid;
     grid-template-columns: 1.6fr 0.9fr;
     gap: 28px;
-    align-items: stretch;
-}
+    align-items: start;}
 
 /* מעצב את אזור הטקסט של סיפור החברה עם פס כחול. */
 .story-text {
@@ -923,6 +1064,7 @@ canvas {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    min-height: 320px;
 }
 
 /* צובע ומגדיל את כותרת הכרטיס הכהה. */
@@ -939,6 +1081,39 @@ canvas {
     font-size: 16px;
 }
 
+/* מסדר את כרטיסי What We Offer בגריד מקצועי. */
+.home-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 22px;
+}
+
+/* מעצב כל יתרון בחלק What We Offer ככרטיס נפרד. */
+.home-card {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 18px;
+    padding: 24px;
+    border-top: 5px solid #2563eb;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.home-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.08);
+}
+
+.home-card h3 {
+    margin-top: 0;
+    color: #111827;
+}
+
+.home-card p {
+    color: #4b5563;
+    line-height: 1.6;
+    margin-bottom: 0;
+}
+
 /* מסדר את שלבי התהליך ב-Grid רספונסיבי. */
 .process-steps {
     display: grid;
@@ -953,8 +1128,14 @@ canvas {
     padding: 24px;
     text-align: center;
     border: 1px solid #e5e7eb;
+    min-height: 210px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
+.process-step:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.08);
+}
 /* מעצב את מספר השלב כעיגול כחול. */
 .process-step span {
     width: 44px;
@@ -993,8 +1174,14 @@ canvas {
     border-radius: 18px;
     padding: 24px;
     border-top: 5px solid #2563eb;
+    min-height: 185px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
+.why-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.08);
+}
 /* מסיר רווח עליון מכותרת היתרון. */
 .why-item h3 {
     margin-top: 0;
@@ -1029,6 +1216,10 @@ canvas {
 
 /* התאמות של דף הבית למסכים עד 800 פיקסלים. */
 @media (max-width: 800px) {
+    .home-hero {
+        padding: 50px 22px;
+    }
+
     .home-hero h1 {
         font-size: 44px;
     }
@@ -1039,6 +1230,18 @@ canvas {
 
     .hero-subtitle {
         font-size: 18px;
+    }
+
+    .home-cards,
+    .process-steps,
+    .why-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .main-button,
+    .secondary-button {
+        width: 100%;
+        max-width: 280px;
     }
 }
 /* =========================
@@ -1176,7 +1379,7 @@ canvas {
 .store-container .product-card img {
     width: 100%;
     height: 190px;
-    object-fit: cover;
+    object-fit: contain;
     background: #f3f4f6;
     border-radius: 0;
 }
@@ -1187,6 +1390,7 @@ canvas {
     font-size: 19px;
     margin: 18px 18px 8px;
     color: #111827;
+    min-height: 46px;
 }
 
 /* מעצב את פסקאות המידע בכרטיס החנות. */
@@ -1369,6 +1573,19 @@ canvas {
     margin: 0 0 10px;
     color: #111827;
 }
+.order-details-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 24px;
+}
+
+.order-detail-line {
+    margin: 0;
+}
+
+.products-line {
+    grid-column: 1 / -1;
+}
 
 /* במסכים עד 700 פיקסלים מסדר את כותרת ההזמנה בטור. */
 @media (max-width: 700px) {
@@ -1378,6 +1595,13 @@ canvas {
 
     .order-status {
         width: fit-content;
+    }
+    .order-details-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .products-line {
+        grid-column: auto;
     }
 }
 
@@ -1431,9 +1655,15 @@ canvas {
 .product-card-actions button {
     flex: 1;
     margin: 0 !important;
-    height: 42px;
+    min-height: 50px;
+    padding: 6px 10px;
     border-radius: 999px;
-    font-size: 14px;
+    font-size: 13px;
+    line-height: 1.15;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 }
 
 /* מעצב את הכפתור הראשון, בדרך כלל הצגת פרטים, בצבע כהה. */
@@ -1547,8 +1777,8 @@ button:disabled:hover {
 /* קובע גודל ותצוגה אחידים לתמונת המוצר בתוך ה-Modal. */
 #modalProductImage {
     width: 100%;
-    height: 360px;
-    object-fit: cover;
+    height: 300px;
+    object-fit: contain;
     border-radius: 18px;
     background: #f3f4f6;
 }
@@ -1677,15 +1907,23 @@ button:disabled:hover {
 
 #cartMessage.cart-message-success,
 #cartMessage.cart-message-error {
-    max-width: 760px;
-    margin: 18px auto;
-    padding: 14px 18px;
-    border-radius: 16px;
+    position: fixed;
+    top: auto;
+    right: 24px;
+    bottom: 24px;
+    z-index: 9999;
+    width: min(420px, calc(100% - 32px));
+    margin: 0;
+    padding: 16px 18px;
+    border-radius: 18px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 14px;
     font-weight: bold;
+    opacity: 1;
+    pointer-events: auto;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
 }
 
 #cartMessage.cart-message-success {
@@ -1700,10 +1938,14 @@ button:disabled:hover {
     border: 1px solid #fecaca;
 }
 
+#cartMessage span {
+    line-height: 1.4;
+}
+
 .go-to-cart-button {
     background: #2563eb;
     color: white;
-    padding: 9px 16px;
+    padding: 10px 16px;
     border-radius: 999px;
     text-decoration: none;
     white-space: nowrap;
@@ -1712,6 +1954,27 @@ button:disabled:hover {
 
 .go-to-cart-button:hover {
     background: #1d4ed8;
+    color: white;
+}
+
+@media (max-width: 600px) {
+    #cartMessage.cart-message-success,
+    #cartMessage.cart-message-error {
+        right: 16px;
+        left: 16px;
+        bottom: 16px;
+        width: auto;
+    }
+}
+
+@media (max-width: 600px) {
+    #cartMessage.cart-message-success,
+    #cartMessage.cart-message-error {
+        right: 16px;
+        left: 16px;
+        bottom: 16px;
+        width: auto;
+    }
 }
 /* =========================
    Cart Page Polish
@@ -1738,7 +2001,7 @@ button:disabled:hover {
 .cart-item img {
     width: 130px;
     height: 105px;
-    object-fit: cover;
+    object-fit: contain;
     border-radius: 16px;
     background: #f3f4f6;
 }
@@ -1769,8 +2032,8 @@ button:disabled:hover {
 .cart-actions {
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    min-width: 150px;
+    gap: 12px;
+    max-width: 340px;
 }
 
 .cart-actions button,
@@ -1808,12 +2071,13 @@ button:disabled:hover {
 
 #checkoutButton,
 .checkout-button {
-    margin-top: 18px;
+    margin-top: 0;
     width: 100%;
-    max-width: 320px;
+    max-width: none;
+    min-height: 48px;
     padding: 14px 20px;
     border-radius: 999px;
-    font-size: 17px;
+    font-size: 16px;
     font-weight: bold;
     background: #16a34a;
 }
@@ -1824,13 +2088,40 @@ button:disabled:hover {
 }
 
 #clearCartButton {
-    margin-top: 12px;
+    margin-top: 0;
+    width: 100%;
+    max-width: none;
+    min-height: 48px;
     background: #ef4444;
     border-radius: 999px;
 }
+#orderMessage {
+    margin-top: 16px;
+    font-weight: bold;
+}
+
+#orderMessage.order-message-success,
+#orderMessage.order-message-error {
+    padding: 12px 14px;
+    border-radius: 12px;
+    line-height: 1.5;
+}
+
+#orderMessage.order-message-success {
+    background: #ecfdf5;
+    color: #166534;
+    border: 1px solid #bbf7d0;
+}
+
+#orderMessage.order-message-error {
+    background: #fef2f2;
+    color: #991b1b;
+    border: 1px solid #fecaca;
+}
 
 .empty-cart,
-.empty-state {
+.empty-state,
+.empty-cart-box {
     text-align: center;
     background: white;
     border: 1px dashed #cbd5e1;
@@ -1843,6 +2134,29 @@ button:disabled:hover {
 .empty-state h2 {
     color: #111827;
     margin-bottom: 10px;
+}
+.empty-cart-box h3 {
+    color: #111827;
+    margin-bottom: 10px;
+}
+
+.empty-cart-box p {
+    color: #475569;
+    margin-bottom: 18px;
+}
+
+.empty-cart-box .main-button {
+    display: inline-block;
+    background: #2563eb;
+    color: white;
+    text-decoration: none;
+    padding: 12px 18px;
+    border-radius: 999px;
+    font-weight: bold;
+}
+
+.empty-cart-box .main-button:hover {
+    background: #1d4ed8;
 }
 
 @media (max-width: 750px) {
@@ -1991,15 +2305,39 @@ button:disabled:hover {
 
 .admin-product-image {
     width: 100%;
-    height: 350px;
-    object-fit: cover;
+    height: 170px;
+    object-fit: contain;
     border-radius: 16px;
     background: #f3f4f6;
     margin-bottom: 14px;
     border: 1px solid #e5e7eb;
 }
+.admin-product-card {
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-product-card h3 {
+    min-height: 54px;
+}
+
+.admin-product-card p {
+    margin: 6px 0;
+}
+
+.admin-product-card p:nth-of-type(4) {
+    min-height: 64px;
+}
+
+.admin-product-card .admin-actions {
+    margin-top: auto;
+}
 
 .admin-card {
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 22px;
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -2018,6 +2356,12 @@ button:disabled:hover {
 .admin-actions button {
     border-radius: 999px;
     padding: 9px 16px;
+}
+#adminOrdersContainer,
+#adminSupportContainer {
+    display: grid;
+    gap: 18px;
+    margin-top: 18px;
 }
 /* =========================
    Admin Orders / Support Polish
@@ -2090,8 +2434,54 @@ button:disabled:hover {
 }
 
 /* שיפור ריווח כללי באזור Admin */
-.admin-card + .admin-card {
+.admin-container > .admin-card + .admin-card {
+    margin-top: 24px;
+}
+
+#adminOrdersContainer,
+#adminSupportContainer {
+    display: grid;
+    gap: 18px;
     margin-top: 18px;
+}
+
+.admin-order-card,
+.admin-ticket-card {
+    padding: 28px;
+}
+
+.admin-details-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 28px;
+    margin-top: 12px;
+}
+
+.admin-details-grid p {
+    margin: 0;
+}
+
+.admin-full-line {
+    grid-column: 1 / -1;
+    word-break: break-word;
+}
+
+.admin-status-row {
+    margin-top: 18px;
+    max-width: 320px;
+}
+
+.admin-status-row label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+.admin-status-row select {
+    width: 100%;
+}
+
+.admin-ticket-card {
+    border-left-color: #16a34a;
 }
 
 @media (max-width: 700px) {

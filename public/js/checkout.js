@@ -363,7 +363,7 @@ document.querySelectorAll("input[name='paymentMethod']").forEach(function (radio
             creditCardFields.style.display = "none";
         } else {
             // אם נבחר כרטיס אשראי, מציגה את השדות.
-            creditCardFields.style.display = "block";
+            creditCardFields.style.display = "grid";
         }
     });
 });
@@ -418,12 +418,13 @@ checkoutForm.addEventListener("submit", async function (event) {
     // יוצרת מערך מוצרים מסודר בפורמט המתאים להזמנה.
     const orderItems = cart.map(function (item) {
         return {
-            productId: item.productId || item._id,            price: item.price,
+            productId: item.productId || item._id,
+            name: item.name,
+            price: item.price,
             image: item.image,
             quantity: item.quantity,
         };
     });
-
     // בונה את אובייקט ההזמנה המלא שיישלח לשרת.
     const orderData = {
         // שומרת את שם המשתמש או את כתובת האימייל שלו.

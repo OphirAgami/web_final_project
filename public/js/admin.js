@@ -199,7 +199,7 @@ async function loadProducts() {
         products.forEach(function (product) {
             // יוצרת כרטיס HTML חדש עבור המוצר הנוכחי.
             const productDiv = document.createElement("div");
-            productDiv.className = "admin-card";
+            productDiv.className = "admin-card admin-product-card";
 
             // בונה את תוכן הכרטיס ומוסיפה כפתורי Edit ו-Delete.
             productDiv.innerHTML = `
@@ -214,7 +214,6 @@ async function loadProducts() {
                 <p><strong>Price:</strong> ${formatPrice(product.price)}</p>
                 <p><strong>Stock:</strong> ${product.stock}</p>
                 <p><strong>Description:</strong> ${escapeHtml(product.description)}</p>
-                <p><strong>Image:</strong> ${escapeHtml(product.image || product.imageUrl || "")}</p>
 
                 <div class="admin-actions">
                     <button type="button" onclick="editProduct('${product._id}')">Edit</button>
@@ -370,20 +369,48 @@ if (productForm) {
 // =========================
 
 // מחברת את שמות המוצרים והכמויות בהזמנה לטקסט אחד קריא.
-function getOrderItemsText(order) {
-    // אם אין פריטים בהזמנה, מחזירה הודעת ברירת מחדל.
+function buildProductsMap(products) {
+    const productsMap = {};
+
+    if (Array.isArray(products)) {
+        products.forEach(function (product) {
+            productsMap[product._id] = product.name;
+        });
+    }
+
+    return productsMap;
+}
+
+async function getProductsMapForOrders() {
+    if (productsList && productsList.length > 0) {
+        return buildProductsMap(productsList);
+    }
+
+    try {
+        const response = await fetch("/api/products");
+        const products = await response.json();
+        return buildProductsMap(products);
+    } catch (error) {
+        return {};
+    }
+}
+
+function getOrderItemsText(order, productsMap) {
     if (!order.items || order.items.length === 0) {
         return "No products";
     }
 
-    // הופכת כל פריט לטקסט בפורמט "שם xכמות" ומחברת בפסיקים.
     return order.items
         .map(function (item) {
-            return escapeHtml(item.name) + " x" + item.quantity;
+            const productName =
+                item.name ||
+                productsMap[item.productId] ||
+                "Unknown product";
+
+            return escapeHtml(productName) + " x" + (Number(item.quantity) || 1);
         })
         .join(", ");
 }
-
 // טוענת את כל ההזמנות מהשרת ומציגה אותן בדף המנהל.
 async function loadOrders() {
     // אם אין בדף אזור להזמנות, אין צורך להמשיך.
@@ -408,55 +435,56 @@ async function loadOrders() {
             ordersContainer.innerHTML = "<p>No orders found.</p>";
             return;
         }
-
+        const productsMap = await getProductsMapForOrders();
         // עוברת על כל הזמנה שהתקבלה.
         orders.forEach(function (order) {
             // יוצרת כרטיס HTML חדש להזמנה הנוכחית.
             const orderDiv = document.createElement("div");
-            orderDiv.className = "admin-card";
-
+            orderDiv.className = "admin-card admin-order-card";
             // מכינה טקסט מסודר של המוצרים והכמויות בהזמנה.
-            const productsText = getOrderItemsText(order);
-
+            const productsText = getOrderItemsText(order, productsMap);
             // בונה את פרטי ההזמנה, התשלום, המשלוח ובחירת הסטטוס.
             orderDiv.innerHTML = `
-                <h3>Order from ${escapeHtml(order.customerUsername)}</h3>
+    <h3>Order from ${escapeHtml(order.customerUsername)}</h3>
 
-                <p><strong>Order Number:</strong> ${escapeHtml(order.orderNumber || order._id)}</p>
-                <p><strong>Date:</strong> ${formatDate(order.createdAt)}</p>
-                <p><strong>Products:</strong> ${productsText}</p>
+    <div class="admin-details-grid">
+        <p><strong>Order Number:</strong> ${escapeHtml(order.orderNumber || order._id)}</p>
+        <p><strong>Date:</strong> ${formatDate(order.createdAt)}</p>
+        <p class="admin-full-line"><strong>Products:</strong> ${productsText}</p>
 
-                <p><strong>Subtotal:</strong> ${formatPrice(order.subtotal)}</p>
-                <p><strong>Shipping:</strong> ${formatPrice(order.shippingFee)}</p>
-                <p><strong>Coupon:</strong> ${escapeHtml(order.couponCode || "No coupon")}</p>
-                <p><strong>Discount:</strong> -${formatPrice(order.discountAmount || 0)}</p>
-                <p><strong>Total:</strong> ${formatPrice(order.totalPrice)}</p>
+        <p><strong>Subtotal:</strong> ${formatPrice(order.subtotal)}</p>
+        <p><strong>Shipping:</strong> ${formatPrice(order.shippingFee)}</p>
+        <p><strong>Coupon:</strong> ${escapeHtml(order.couponCode || "No coupon")}</p>
+        <p><strong>Discount:</strong> -${formatPrice(order.discountAmount || 0)}</p>
+        <p><strong>Total:</strong> ${formatPrice(order.totalPrice)}</p>
+        <p><strong>Delivery:</strong> ${escapeHtml(order.deliveryDays || "")}</p>
 
-                <p><strong>Payment:</strong> ${escapeHtml(order.payment ? order.payment.method : "")}</p>
-                <p><strong>Payment Status:</strong> ${escapeHtml(order.payment ? order.payment.status : "")}</p>
-                <p><strong>Delivery:</strong> ${escapeHtml(order.deliveryDays || "")}</p>
+        <p><strong>Payment:</strong> ${escapeHtml(order.payment ? order.payment.method : "")}</p>
+        <p><strong>Payment Status:</strong> ${escapeHtml(order.payment ? order.payment.status : "")}</p>
 
-                <p><strong>Shipping To:</strong>
-                    ${escapeHtml(order.shippingAddress ? order.shippingAddress.fullName : "")},
-                    ${escapeHtml(order.shippingAddress ? order.shippingAddress.city : "")},
-                    ${escapeHtml(order.shippingAddress ? order.shippingAddress.street : "")}
-                </p>
+        <p class="admin-full-line"><strong>Shipping To:</strong>
+            ${escapeHtml(order.shippingAddress ? order.shippingAddress.fullName : "")},
+            ${escapeHtml(order.shippingAddress ? order.shippingAddress.city : "")},
+            ${escapeHtml(order.shippingAddress ? order.shippingAddress.street : "")}
+        </p>
 
-                <p><strong>Status:</strong> ${escapeHtml(order.status)}</p>
+        <p><strong>Status:</strong> ${escapeHtml(order.status)}</p>
+    </div>
 
-                <label><strong>Update Status:</strong></label>
-                <select onchange="updateOrderStatus('${order._id}', this.value)">
-                    <option value="Paid - Processing" ${order.status === "Paid - Processing" ? "selected" : ""}>Paid - Processing</option>
-                    <option value="Shipped" ${order.status === "Shipped" ? "selected" : ""}>Shipped</option>
-                    <option value="Delivered" ${order.status === "Delivered" ? "selected" : ""}>Delivered</option>
-                    <option value="Cancelled" ${order.status === "Cancelled" ? "selected" : ""}>Cancelled</option>
-                </select>
+    <div class="admin-status-row">
+        <label><strong>Update Status:</strong></label>
+        <select onchange="updateOrderStatus('${order._id}', this.value)">
+            <option value="Paid - Processing" ${order.status === "Paid - Processing" ? "selected" : ""}>Paid - Processing</option>
+            <option value="Shipped" ${order.status === "Shipped" ? "selected" : ""}>Shipped</option>
+            <option value="Delivered" ${order.status === "Delivered" ? "selected" : ""}>Delivered</option>
+            <option value="Cancelled" ${order.status === "Cancelled" ? "selected" : ""}>Cancelled</option>
+        </select>
+    </div>
 
-                <div class="admin-actions">
-                    <button type="button" class="delete-button" onclick="deleteOrder('${order._id}')">Delete Order</button>
-                </div>
-            `;
-
+    <div class="admin-actions">
+        <button type="button" class="delete-button" onclick="deleteOrder('${order._id}')">Delete Order</button>
+    </div>
+`;
             // מוסיפה את כרטיס ההזמנה לאזור ההזמנות בדף.
             ordersContainer.appendChild(orderDiv);
         });
@@ -563,30 +591,32 @@ async function loadSupportTickets() {
         tickets.forEach(function (ticket) {
             // יוצרת כרטיס HTML חדש עבור הפנייה.
             const ticketDiv = document.createElement("div");
-            ticketDiv.className = "admin-card";
-
+            ticketDiv.className = "admin-card admin-ticket-card";
             // בונה את פרטי הפנייה ואת האפשרות לשנות סטטוס או למחוק.
             ticketDiv.innerHTML = `
-                <h3>${escapeHtml(ticket.subject || "Support Ticket")}</h3>
+    <h3>${escapeHtml(ticket.subject || "Support Ticket")}</h3>
 
-                <p><strong>Name:</strong> ${escapeHtml(ticket.name || ticket.fullName || "")}</p>
-                <p><strong>Email:</strong> ${escapeHtml(ticket.email || "")}</p>
-                <p><strong>Username:</strong> ${escapeHtml(ticket.username || ticket.customerUsername || "")}</p>
-                <p><strong>Message:</strong> ${escapeHtml(ticket.message || "")}</p>
-                <p><strong>Date:</strong> ${formatDate(ticket.createdAt)}</p>
+    <div class="admin-details-grid">
+        <p><strong>Name:</strong> ${escapeHtml(ticket.name || ticket.fullName || "")}</p>
+        <p><strong>Email:</strong> ${escapeHtml(ticket.email || "")}</p>
+        <p><strong>Username:</strong> ${escapeHtml(ticket.username || ticket.customerUsername || "")}</p>
+        <p><strong>Date:</strong> ${formatDate(ticket.createdAt)}</p>
+        <p><strong>Status:</strong> ${escapeHtml(ticket.status || "Open")}</p>
+        <p class="admin-full-line"><strong>Message:</strong> ${escapeHtml(ticket.message || "")}</p>
+    </div>
 
-                <p><strong>Status:</strong> ${escapeHtml(ticket.status || "Open")}</p>
+    <div class="admin-status-row">
+        <label><strong>Update Status:</strong></label>
+        <select onchange="updateSupportTicketStatus('${ticket._id}', this.value)">
+            <option value="Open" ${(ticket.status || "Open") === "Open" ? "selected" : ""}>Open</option>
+            <option value="Resolved" ${ticket.status === "Resolved" ? "selected" : ""}>Resolved</option>
+        </select>
+    </div>
 
-                <label><strong>Update Status:</strong></label>
-                <select onchange="updateSupportTicketStatus('${ticket._id}', this.value)">
-                    <option value="Open" ${(ticket.status || "Open") === "Open" ? "selected" : ""}>Open</option>
-                    <option value="Resolved" ${ticket.status === "Resolved" ? "selected" : ""}>Resolved</option>
-                </select>
-
-                <div class="admin-actions">
-                    <button type="button" class="delete-button" onclick="deleteSupportTicket('${ticket._id}')">Delete Ticket</button>
-                </div>
-            `;
+    <div class="admin-actions">
+        <button type="button" class="delete-button" onclick="deleteSupportTicket('${ticket._id}')">Delete Ticket</button>
+    </div>
+`;
 
             // מוסיפה את כרטיס הפנייה לאזור התמיכה בדף.
             supportTicketsContainer.appendChild(ticketDiv);
@@ -717,6 +747,18 @@ async function loadProductsByCategoryChart() {
                     },
                 ],
             },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            precision: 0,
+                        },
+                    },
+                },
+            },
         });
 
         // אם טעינת הנתונים או יצירת הגרף נכשלו, כותבת שגיאה ל-Console.
@@ -761,6 +803,15 @@ async function loadAveragePriceChart() {
                         data: values,
                     },
                 ],
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                    },
+                },
             },
         });
 

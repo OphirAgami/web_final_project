@@ -18,6 +18,36 @@ function saveCart(cart) {
     localStorage.setItem("cart", JSON.stringify(cart));
 }
 
+function formatPrice(value) {
+    return "$" + (Number(value) || 0).toFixed(2);
+}
+
+let orderMessageTimeout;
+
+function showOrderMessage(message, isSuccess) {
+    if (!orderMessage) {
+        return;
+    }
+
+    orderMessage.textContent = message;
+    orderMessage.classList.remove("order-message-success", "order-message-error");
+
+    if (isSuccess) {
+        orderMessage.classList.add("order-message-success");
+    } else {
+        orderMessage.classList.add("order-message-error");
+    }
+
+    if (orderMessageTimeout) {
+        clearTimeout(orderMessageTimeout);
+    }
+
+    orderMessageTimeout = setTimeout(function () {
+        orderMessage.textContent = "";
+        orderMessage.classList.remove("order-message-success", "order-message-error");
+    }, 3000);
+}
+
 // טעינת העגלה והצגתה בעמוד
 function loadCart() {
     const cart = getCart();
@@ -32,8 +62,7 @@ function loadCart() {
                 <a class="main-button" href="store.html">Start Shopping</a>
             </div>
         `;
-        cartTotalText.textContent = "Total: $0";
-        return;
+        cartTotalText.textContent = "Total: " + formatPrice(0);        return;
     }
 
     let totalPrice = 0;
@@ -50,11 +79,10 @@ function loadCart() {
 
             <div class="cart-item-details">
                 <h3>${item.name}</h3>
-                <p>Price: $${item.price}</p>
-                <p>Quantity: ${item.quantity}</p>
-                <p>Item Total: $${itemTotal}</p>
-                <p>Available stock: ${item.stock || "Unknown"}</p>
-
+    <p><strong>Price:</strong> ${formatPrice(item.price)}</p>
+<p><strong>Quantity:</strong> ${item.quantity}</p>
+<p><strong>Item Total:</strong> ${formatPrice(itemTotal)}</p>
+<p><strong>Available stock:</strong> ${item.stock || "Unknown"}</p>
                 <div class="cart-item-actions">
                     <button type="button" onclick="addOneItem('${item._id}')">Add One</button>
                     <button type="button" onclick="removeOneItem('${item._id}')">Remove One</button>
@@ -66,8 +94,7 @@ function loadCart() {
         cartItemsContainer.appendChild(cartItem);
     });
 
-    cartTotalText.textContent = "Total: $" + totalPrice;
-}
+    cartTotalText.textContent = "Total: " + formatPrice(totalPrice);}
 
 // הוספת יחידה אחת למוצר שכבר נמצא בעגלה
 function addOneItem(productId) {
@@ -146,8 +173,7 @@ function removeItemCompletely(productId) {
 if (clearCartButton) {
     clearCartButton.addEventListener("click", function () {
         localStorage.removeItem("cart");
-        orderMessage.textContent = "";
-        loadCart();
+        showOrderMessage("Cart cleared successfully.", true);        loadCart();
 
         if (typeof updateMainLayout === "function") {
             updateMainLayout();
@@ -162,15 +188,13 @@ if (checkoutButton) {
         const cart = getCart();
 
         if (!currentUser) {
-            orderMessage.style.color = "red";
-            orderMessage.textContent = "Please login before checkout.";
+            showOrderMessage("Please login before checkout.", false);
             return;
         }
 
         if (cart.length === 0) {
-            orderMessage.style.color = "red";
-            orderMessage.textContent = "Your cart is empty.";
-            return;
+            showOrderMessage("Your cart is empty.", false);
+            return;showOrderMessage("Your cart is empty.", false);
         }
 
         window.location.href = "checkout.html";

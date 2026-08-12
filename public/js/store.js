@@ -435,14 +435,14 @@ function showCartMessage(message, isSuccess) {
         return;
     }
 
-    cartMessage.classList.remove("cart-message-success", "cart-message-error");
+    cartMessage.classList.remove("cart-message-success", "cart-message-error", "show");
 
     if (isSuccess) {
         cartMessage.classList.add("cart-message-success");
 
         cartMessage.innerHTML = `
             <span>${escapeHtml(message)}</span>
-            <a href="cart.html" class="go-to-cart-button">Go to Cart</a>
+            <a href="checkout.html" class="go-to-cart-button">Go to Checkout</a>
         `;
     } else {
         cartMessage.classList.add("cart-message-error");
@@ -452,16 +452,17 @@ function showCartMessage(message, isSuccess) {
         `;
     }
 
+    cartMessage.classList.add("show");
+
     if (cartMessageTimeout) {
         clearTimeout(cartMessageTimeout);
     }
 
     cartMessageTimeout = setTimeout(function () {
         cartMessage.innerHTML = "";
-        cartMessage.classList.remove("cart-message-success", "cart-message-error");
-    }, 5000);
+        cartMessage.classList.remove("cart-message-success", "cart-message-error", "show");
+    }, 3000);
 }
-
 function addToCart(productId) {
     const product = productsList.find(function (item) {
         return item._id === productId;
